@@ -12,6 +12,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/build" element={<SurveyForm />} />
+            <Route path="/find" element={<Home />} />
           </Routes>
         </main>
       </Router>

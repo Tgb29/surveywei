@@ -15,7 +15,9 @@ function Navbar() {
             <button className="btn btn-link">Build Survey</button>
           </Link>
 
-          <button className="btn btn-link">Find Survey</button>
+          <Link to="/find" className="flex m-auto">
+            <button className="btn btn-link">Find Survey</button>
+          </Link>
           <button className="bg-[blue] rounded-full px-3 py-1 text-white">
             Connect
           </button>
