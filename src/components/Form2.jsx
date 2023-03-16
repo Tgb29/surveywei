@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 function Form2() {
   const [title, setTitle] = useState("");
   const [formData, setFormData] = useState([{}]);
-  const [questions, setQuestions] = useState([{}]);
+  const [questions, setQuestions] = useState([]);
   const [questionRefs, setQuestionRefs] = useState([React.createRef()]);
 
   const onChange = (index) => (e) => {
@@ -42,11 +42,16 @@ function Form2() {
   };
 
   useEffect(() => {
-    fetch("https://surveywei-1b1e0-default-rtdb.firebaseio.com/surveys.json", {
-      method: "POST",
-      body: JSON.stringify({ [title]: questions }),
-      headers: { "Content-Type": "application/json" },
-    });
+    if (title && questions.length > 0) {
+      fetch(
+        "https://surveywei-1b1e0-default-rtdb.firebaseio.com/surveys.json",
+        {
+          method: "POST",
+          body: JSON.stringify({ [title]: questions }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
   }, [questions]);
 
   useEffect(() => {
