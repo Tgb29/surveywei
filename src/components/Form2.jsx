@@ -1,6 +1,9 @@
 import React from "react";
 
 import { useState, useEffect, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Form2() {
   const [title, setTitle] = useState("");
@@ -16,43 +19,50 @@ function Form2() {
     });
   };
 
-  const makeQuestion = (index) => {
-    const question = formData[index][`question${index + 1}`];
-    const answers = [
-      formData[index].answer1,
-      formData[index].answer2,
-      formData[index].answer3,
-      formData[index].answer4,
-    ];
-    setQuestions((prevQuestions) => {
-      const newQuestions = [...prevQuestions];
-      newQuestions[index] = { question: question, answers: answers };
-      return newQuestions;
+  const makeQuestions = () => {
+    const newQuestions = [];
+    for (let i = 0; i < formData.length; i++) {
+      const question = formData[i][`question${i + 1}`];
+      const answers = [
+        formData[i].answer1,
+        formData[i].answer2,
+        formData[i].answer3,
+        formData[i].answer4,
+      ];
+      newQuestions[i] = { question: question, answers: answers };
+    }
+    return newQuestions;
+  };
+
+  const onClick = async () => {
+    const updatedQuestions = makeQuestions();
+    setQuestions(updatedQuestions);
+
+    if (title && updatedQuestions.length > 0) {
+      try {
+        const response = await fetch(
+          "https://surveywei-1b1e0-default-rtdb.firebaseio.com/surveys.json",
+          {
+            method: "POST",
+            body: JSON.stringify({ [title]: updatedQuestions }),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (response.ok) {
+          showSuccessToast();
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const showSuccessToast = () => {
+    toast.success("Survey submitted successfully!", {
+      position: "top-center",
+      autoClose: 2000,
     });
   };
-
-  const makeQuestions = () => {
-    for (let i = 0; i < 5; i++) {
-      makeQuestion(i);
-    }
-  };
-
-  const onClick = () => {
-    makeQuestions();
-  };
-
-  useEffect(() => {
-    if (title && questions.length > 0) {
-      fetch(
-        "https://surveywei-1b1e0-default-rtdb.firebaseio.com/surveys.json",
-        {
-          method: "POST",
-          body: JSON.stringify({ [title]: questions }),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-  }, [questions]);
 
   useEffect(() => {
     if (formData.length > 1) {
@@ -64,7 +74,7 @@ function Form2() {
 
   const addQuestion = () => {
     if (formData.length < 5) {
-      setFormData((prevFormData) => [...prevFormData, {}]);
+      setFormData((prevFormData) => [...prevFormData, { id: uuidv4() }]);
       setQuestions((prevQuestions) => [...prevQuestions, {}]);
       setQuestionRefs((prevRefs) => [...prevRefs, React.createRef()]);
     } else {
@@ -72,9 +82,15 @@ function Form2() {
     }
   };
 
-  const questionBlocks = formData.map((_, i) => (
+  const removeQuestion = (index) => {
+    setFormData((prevState) => prevState.filter((_, i) => i !== index));
+    setQuestions((prevState) => prevState.filter((_, i) => i !== index));
+    setQuestionRefs((prevState) => prevState.filter((_, i) => i !== index));
+  };
+
+  const questionBlocks = formData.map((question, i) => (
     <div
-      key={i}
+      key={question.id}
       ref={questionRefs[i]}
       id={`question${i + 1}-block`}
       className="flex  align-center justify-center mx-auto text-center border-2 mb-10"
@@ -102,6 +118,13 @@ function Form2() {
           </div>
         ))}
       </div>
+      <button
+        type="button"
+        onClick={() => removeQuestion(i)}
+        className="btn flex ml-10 py-1 px-2 bg-[lightgreen] h-fit"
+      >
+        Remove Question
+      </button>
     </div>
   ));
   return (
@@ -147,6 +170,7 @@ function Form2() {
           Add Question
         </button>
       </div>
+      <ToastContainer />
     </>
   );
 }
