@@ -1,8 +1,6 @@
 import React from "react";
 
 import { useState, useEffect, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function Form2() {
   const [title, setTitle] = useState("");
@@ -44,20 +42,6 @@ function Form2() {
   };
 
   useEffect(() => {
-    const resetForm = () => {
-      setTitle("");
-      setFormData([{}]);
-      setQuestions([]);
-      setQuestionRefs([React.createRef()]);
-      document.getElementById("title").value = "";
-      formData.forEach((_, i) => {
-        document.getElementById(`question${i + 1}`).value = "";
-        Array.from({ length: 4 }, (_, j) => {
-          document.getElementById(`answer${j + 1}`).value = "";
-        });
-      });
-    };
-
     if (title && questions.length > 0) {
       fetch(
         "https://surveywei-1b1e0-default-rtdb.firebaseio.com/surveys.json",
@@ -66,19 +50,7 @@ function Form2() {
           body: JSON.stringify({ [title]: questions }),
           headers: { "Content-Type": "application/json" },
         }
-      )
-        .then((response) => {
-          if (response.ok) {
-            toast.success("Survey successfully uploaded to Firebase!");
-            resetForm();
-          } else {
-            toast.error("Error uploading survey to Firebase.");
-          }
-          return response.json();
-        })
-        .catch((error) => {
-          toast.error("Error uploading survey to Firebase.");
-        });
+      );
     }
   }, [questions]);
 
@@ -134,7 +106,6 @@ function Form2() {
   ));
   return (
     <>
-      <ToastContainer />
       <div className="flex align-center justify-center mx-auto"></div>
       <div
         id="form-container"
