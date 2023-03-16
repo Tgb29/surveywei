@@ -9,12 +9,16 @@ function Navbar({ setConnectedAddress }) {
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
         e.target.closest("#hamburger-icon") === null &&
-        e.target.closest("#dropdown") === null
+        e.target.closest("#dropdown") === null &&
+        e.target.closest(".nav-link") === null
       ) {
         setDropdownOpen(false);
       }
@@ -66,12 +70,12 @@ function Navbar({ setConnectedAddress }) {
           className="hidden md:flex items-center justify-end w-2/3 pr-5 space-x-10"
         >
           <Link to="/find" className="flex m-auto">
-            <button className="btn btn-link font-semibold text-gray-700 hover:text-gray-900">
+            <button className="nav-link btn btn-link font-semibold text-gray-700 hover:text-gray-900">
               Find Survey
             </button>
           </Link>
           <Link to="/build" className="flex m-auto">
-            <button className="btn btn-link font-semibold text-gray-700 hover:text-gray-900">
+            <button className="nav-link btn btn-link font-semibold text-gray-700 hover:text-gray-900">
               Build Survey
             </button>
           </Link>
@@ -102,10 +106,20 @@ function Navbar({ setConnectedAddress }) {
             className="md:hidden w-48 bg-white border-t-2 py-2 absolute left-1/2 -translate-x-1/2 mt-20 ml-28 shadow-md rounded-md"
           >
             <Link to="/find" className="block py-2 px-5">
-              Find Survey
+              <button
+                className="nav-link btn btn-link font-semibold text-gray-700 hover:text-gray-900"
+                onClick={closeDropdown}
+              >
+                Find Survey
+              </button>
             </Link>
             <Link to="/build" className="block py-2 px-5">
-              Build Survey
+              <button
+                className="nav-link btn btn-link font-semibold text-gray-700 hover:text-gray-900"
+                onClick={closeDropdown}
+              >
+                Build Survey
+              </button>
             </Link>
           </div>
         )}
