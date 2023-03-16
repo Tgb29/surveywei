@@ -47,7 +47,8 @@ function Form2() {
           {
             method: "POST",
             body: JSON.stringify({
-              [title]: {
+              [uuidv4()]: {
+                title: title,
                 creator: connectedAddress,
                 questions: updatedQuestions,
               },

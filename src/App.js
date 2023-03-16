@@ -3,6 +3,7 @@ import Home from "./components/home/Home";
 import Navbar from "./components/navigation/Navbar";
 import Form2 from "./components/Form2";
 import SearchSurveys from "./components/SearchSurveys";
+import Survey from "./components/Survey";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserAddressContext from "./UserAddressContext";
 import { useState } from "react";
@@ -18,6 +19,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/build" element={<Form2 />} />
               <Route path="/find" element={<SearchSurveys />} />
+              <Route path="/survey/:key/:id" element={<Survey />} />
             </Routes>
           </main>
         </Router>
