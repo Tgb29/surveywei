@@ -73,7 +73,6 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
       console.error("MetaMask is not installed.");
     }
   };
-
   return (
     <>
       <div id="navbar-container" className="flex border-b-2 bg-white">
@@ -108,11 +107,13 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
           >
             Connect
           </button>
-          <i
-            className={`${
-              connectedAddress ? "" : "hidden"
-            } fas fa-user-circle text-blue-500 text-4xl cursor-pointer`}
-          ></i>
+          {connectedAddress ? (
+            <Link to={`/user/${connectedAddress}`}>
+              <i className="fas fa-user-circle text-blue-500 text-4xl cursor-pointer"></i>
+            </Link>
+          ) : (
+            <i className="hidden fas fa-user-circle text-blue-500 text-4xl cursor-pointer"></i>
+          )}
         </div>
         <div className="md:hidden w-1/3 flex justify-center items-center">
           <i
@@ -128,11 +129,13 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
             } fas fa-wallet text-blue-500 text-2xl cursor-pointer`}
             onClick={connectMetamask}
           ></i>
-          <i
-            className={`${
-              connectedAddress ? "" : "hidden"
-            } fas fa-user-circle text-blue-500 text-3xl cursor-pointer`}
-          ></i>
+          {connectedAddress ? (
+            <Link to={`/user/${connectedAddress}`}>
+              <i className="fas fa-user-circle text-blue-500 text-3xl cursor-pointer"></i>
+            </Link>
+          ) : (
+            <i className="hidden fas fa-user-circle text-blue-500 text-3xl cursor-pointer"></i>
+          )}
         </div>
 
         {dropdownOpen && (
