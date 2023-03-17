@@ -34,12 +34,15 @@ function Survey() {
       );
       return checkedAnswer ? checkedAnswer.value : null;
     });
-    console.log("Responses:", responses);
-  };
 
-  if (!surveyData) {
-    return <div>Loading...</div>;
-  }
+    // Attach creator's information to the responses data
+    const responseData = {
+      creator: surveyData?.creator || "Unknown", // Using optional chaining and fallback value
+      responses: responses,
+    };
+
+    console.log("Responses:", responseData);
+  };
 
   const formatQuestion = (questionText) => {
     const capitalizedFirstLetter =
@@ -49,6 +52,10 @@ function Survey() {
       ? capitalizedFirstLetter
       : capitalizedFirstLetter + "?";
   };
+
+  if (!surveyData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans pt-8">
