@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserAddressContext from "../UserAddressContext";
+import Web3 from "web3";
+import Web3Modal from "web3modal";
 
 function Form2() {
   const [title, setTitle] = useState("");
@@ -12,6 +14,14 @@ function Form2() {
   const [questions, setQuestions] = useState([]);
   const [questionRefs, setQuestionRefs] = useState([React.createRef()]);
   const connectedAddress = useContext(UserAddressContext);
+
+  const connectToMetaMask = async () => {
+    const web3Modal = new Web3Modal();
+    const provider = await web3Modal.connect();
+    const web3 = new Web3(provider);
+    const accounts = await web3.eth.getAccounts();
+    return accounts[0];
+  };
 
   const onChange = (index) => (e) => {
     setFormData((prevState) => {
@@ -37,38 +47,55 @@ function Form2() {
   };
 
   const onClick = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    let userAddress = connectedAddress;
+    if (!userAddress) {
+      try {
+        userAddress = await connectToMetaMask();
+      } catch (error) {
+        toast.error(
+          "Please connect to MetaMask before submitting the survey.",
+          {
+            position: "top-center",
+          }
+        );
+        return;
+      }
+    }
+
     const updatedQuestions = makeQuestions();
     setQuestions(updatedQuestions);
 
-    if (title && updatedQuestions.length > 0) {
-      try {
-        const response = await fetch(
-          "https://surveywei-1b1e0-default-rtdb.firebaseio.com/surveys.json",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              [uuidv4()]: {
-                title: title,
-                creator: connectedAddress,
-                questions: updatedQuestions,
-              },
-            }),
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        if (response.ok) {
-          showSuccessToast();
+    try {
+      const response = await fetch(
+        "https://surveywei-1b1e0-default-rtdb.firebaseio.com/surveys.json",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            [uuidv4()]: {
+              title: title,
+              creator: userAddress,
+              questions: updatedQuestions,
+            },
+          }),
+          headers: { "Content-Type": "application/json" },
         }
-      } catch (error) {
-        console.error("Error:", error);
+      );
+      if (response.ok) {
+        showSuccessToast();
       }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   const showSuccessToast = () => {
     toast.success("Survey submitted successfully!", {
       position: "top-center",
-      autoClose: 2000,
+      autoClose: 1000,
     });
   };
 
@@ -95,6 +122,45 @@ function Form2() {
     setQuestions((prevState) => prevState.filter((_, i) => i !== index));
     setQuestionRefs((prevState) => prevState.filter((_, i) => i !== index));
   };
+
+  const validateForm = () => {
+    if (!title) {
+      toast.error("Please enter a survey title.", { position: "top-center" });
+      return false;
+    }
+
+    for (let i = 0; i < formData.length; i++) {
+      const question = formData[i][`question${i + 1}`];
+      const answers = [
+        formData[i].answer1,
+        formData[i].answer2,
+        formData[i].answer3,
+        formData[i].answer4,
+      ];
+
+      if (!question) {
+        toast.error(`Please enter a question for Question ${i + 1}.`, {
+          position: "top-center",
+        });
+        return false;
+      }
+
+      const hasAtLeastOneAnswer = answers.some((answer) => answer);
+
+      if (!hasAtLeastOneAnswer) {
+        toast.error(
+          `Please provide at least one answer for Question ${i + 1}.`,
+          {
+            position: "top-center",
+          }
+        );
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const questionBlocks = formData.map((question, i) => (
     <div
       key={question.id}

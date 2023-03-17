@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SurveyWeiLogo from "../../assets/SurveyWeiLogo.svg";
+import { useLocation } from "react-router-dom";
 // import Web3 from "web3";
 
-function Navbar({ setConnectedAddress }) {
+function Navbar({ connectedAddress, setConnectedAddress }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const location = useLocation();
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -31,9 +34,27 @@ function Navbar({ setConnectedAddress }) {
     window.addEventListener("click", handleClickOutside);
     window.addEventListener("scroll", handleScroll);
 
+    const handleAccountsChanged = (accounts) => {
+      if (accounts.length > 0) {
+        setConnectedAddress(accounts[0]);
+      } else {
+        setConnectedAddress(null);
+      }
+    };
+
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+    }
+
     return () => {
       window.removeEventListener("click", handleClickOutside);
       window.removeEventListener("scroll", handleScroll);
+      if (window.ethereum) {
+        window.ethereum.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+      }
     };
   }, []);
 
@@ -80,11 +101,18 @@ function Navbar({ setConnectedAddress }) {
             </button>
           </Link>
           <button
-            className="bg-blue-500 rounded-full px-4 py-2 text-white font-semibold hover:bg-blue-600"
+            className={`${
+              connectedAddress ? "hidden" : ""
+            } bg-blue-500 rounded-full px-4 py-2 text-white font-semibold hover:bg-blue-600`}
             onClick={connectMetamask}
           >
             Connect
           </button>
+          <i
+            className={`${
+              connectedAddress ? "" : "hidden"
+            } fas fa-user-circle text-blue-500 text-4xl cursor-pointer`}
+          ></i>
         </div>
         <div className="md:hidden w-1/3 flex justify-center items-center">
           <i
@@ -95,8 +123,15 @@ function Navbar({ setConnectedAddress }) {
         </div>
         <div className="md:hidden w-1/3 flex justify-end items-center pr-5">
           <i
-            className="fas fa-wallet text-blue-500 text-2xl cursor-pointer"
+            className={`${
+              connectedAddress ? "hidden" : ""
+            } fas fa-wallet text-blue-500 text-2xl cursor-pointer`}
             onClick={connectMetamask}
+          ></i>
+          <i
+            className={`${
+              connectedAddress ? "" : "hidden"
+            } fas fa-user-circle text-blue-500 text-3xl cursor-pointer`}
           ></i>
         </div>
 
