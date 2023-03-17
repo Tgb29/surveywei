@@ -17,9 +17,12 @@ function UserSurveys() {
         const data = await response.json();
         const creatorSurveys = {};
 
+        const lowercaseCreatorAddress = creatorAddress.toLowerCase();
+
         for (const key1 in data) {
           for (const key2 in data[key1]) {
-            if (data[key1][key2].creator === creatorAddress) {
+            const lowercaseCreator = data[key1][key2].creator.toLowerCase();
+            if (lowercaseCreator === lowercaseCreatorAddress) {
               if (!creatorSurveys[key1]) {
                 creatorSurveys[key1] = {};
               }
@@ -48,17 +51,25 @@ function UserSurveys() {
   }, []);
 
   return (
-    <div>
-      <h1>User Surveys</h1>
-      <ul>
-        {Object.entries(surveys).map(([outerId, outerData]) =>
-          Object.entries(outerData).map(([id, surveyData]) => (
-            <li key={id}>
-              <Link to={`/survey/${outerId}/${id}`}>{surveyData.title}</Link>
-            </li>
-          ))
-        )}
-      </ul>
+    <div className="bg-gray-100 min-h-screen font-sans">
+      <div className="flex align-center justify-center mx-auto"></div>
+      <div className="flex-col align-center justify-center mx-auto">
+        <h1 className="font-bold text-2xl text-center mt-8 mb-4">My Surveys</h1>
+        <ul className="list-none space-y-4 px-4">
+          {Object.entries(surveys).map(([outerId, outerData]) =>
+            Object.entries(outerData).map(([id, surveyData]) => (
+              <li key={id}>
+                <Link
+                  to={`/survey/${outerId}/${id}`}
+                  className="block rounded-lg bg-white p-4 shadow-md hover:bg-gray-200 transition duration-300 ease-in-out"
+                >
+                  {surveyData.title}
+                </Link>
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
     </div>
   );
 }

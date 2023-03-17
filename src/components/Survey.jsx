@@ -41,6 +41,15 @@ function Survey() {
     return <div>Loading...</div>;
   }
 
+  const formatQuestion = (questionText) => {
+    const capitalizedFirstLetter =
+      questionText.charAt(0).toUpperCase() + questionText.slice(1);
+    const endsWithQuestionMark = capitalizedFirstLetter.endsWith("?");
+    return endsWithQuestionMark
+      ? capitalizedFirstLetter
+      : capitalizedFirstLetter + "?";
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen font-sans pt-8">
       <h1 className="font-bold text-3xl text-center mb-4">
@@ -54,7 +63,7 @@ function Survey() {
               className="border-2 mb-10 p-6 bg-white rounded shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2"
             >
               <h3 className="font-bold text-xl mb-6 text-center">
-                {question.question}
+                {formatQuestion(question.question)}
               </h3>
               {question.answers.map((answer, answerIndex) => (
                 <div key={answerIndex} className="mb-2 text-center">
