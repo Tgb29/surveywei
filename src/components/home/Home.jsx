@@ -28,12 +28,15 @@ function Home() {
     const fetchRecentSurveys = async () => {
       const surveys = await getAllSurveys();
       if (surveys) {
-        const lastFourSurveys = Object.entries(surveys)
-          .map(([id, surveyData]) => {
-            const surveyId = Object.keys(surveyData)[0];
-            return { id, ...surveyData[surveyId] };
+        const allSurveys = Object.entries(surveys)
+          .map(([outerId, outerData]) => {
+            return Object.entries(outerData).map(([id, surveyData]) => {
+              return { outerId, id, ...surveyData };
+            });
           })
-          .slice(-4);
+          .flat();
+
+        const lastFourSurveys = allSurveys.slice(-4);
         setRecentSurveys(lastFourSurveys);
         console.log("Recent surveys:", lastFourSurveys);
       }
@@ -71,11 +74,14 @@ function Home() {
 
             return (
               <div key={survey.id} className="survey-item">
-                <h3>{survey.title}</h3>
-                <p>Created by: {shortenedCreator}</p>
+                <h3 className="font-bold">{survey.title}</h3>
+                <p className="mb-3">
+                  <span className="font-semibold italic">Created by: </span>
+                  {shortenedCreator}
+                </p>
                 <Link
-                  to={`/survey/${survey.id}`}
-                  className="btn btn-sm btn-primary"
+                  to={`/survey/${survey.outerId}/${survey.id}`}
+                  className="btn btn-sm btn-primary "
                 >
                   Take Survey
                 </Link>
