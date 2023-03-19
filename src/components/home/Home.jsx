@@ -48,7 +48,9 @@ function Home() {
     <div className="homepage">
       <section className="hero">
         <div className="hero-content">
-          <h1>Welcome to SurveyWei</h1>
+          <h1 className="font-bold text-2xl">
+            Welcome to Survey<span className="text-black">Wei</span>
+          </h1>
           <p>
             Create and participate in secure, decentralized surveys on the
             blockchain.
@@ -65,7 +67,7 @@ function Home() {
       </section>
       <section className="recent-surveys">
         <h2 className="font-bold text-xl mb-5">Recent Surveys</h2>
-        <div className="survey-list grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="survey-list grid grid-cols-2 md:grid-cols-4 gap-4 mx-4">
           {recentSurveys.map((survey) => {
             const shortenedCreator = `${survey.creator.slice(
               0,
