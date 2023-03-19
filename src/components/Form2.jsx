@@ -10,9 +10,15 @@ import Web3Modal from "web3modal";
 
 function Form2() {
   const [title, setTitle] = useState("");
+  const [respondentsOption, setRespondentsOption] = useState("fixed");
+  const [numberOfRespondents, setNumberOfRespondents] = useState(0);
+  const [totalBounty, setTotalBounty] = useState(0);
+  const [bountyPerUser, setBountyPerUser] = useState(0);
   const [formData, setFormData] = useState([{}]);
   const [questions, setQuestions] = useState([]);
   const [questionRefs, setQuestionRefs] = useState([React.createRef()]);
+  const [firebaseID, setFirebaseId] = useState(null);
+
   const connectedAddress = useContext(UserAddressContext);
 
   const connectToMetaMask = async () => {
@@ -31,6 +37,10 @@ function Form2() {
     });
   };
 
+  const onRespondentsOptionChange = (e) => {
+    setRespondentsOption(e.target.value);
+  };
+
   const makeQuestions = () => {
     const newQuestions = [];
     for (let i = 0; i < formData.length; i++) {
@@ -44,6 +54,10 @@ function Form2() {
       newQuestions[i] = { question: question, answers: answers };
     }
     return newQuestions;
+  };
+
+  const createSurveytoBlockchain = (firebaseID, bounty, respondents) => {
+    console.log(firebaseID, bounty, respondents);
   };
 
   const onClick = async () => {
@@ -79,13 +93,20 @@ function Form2() {
               title: title,
               creator: userAddress,
               questions: updatedQuestions,
+              bountyPerUser: bountyPerUser,
             },
           }),
           headers: { "Content-Type": "application/json" },
         }
       );
       if (response.ok) {
+        const responseBody = await response.json(); // Extract the JSON object from the response body
+        const uniqueKey = responseBody.name; // Get the unique key from the JSON object
+        console.log("Firebase unique key:", uniqueKey); // Use the unique key as needed
+        setFirebaseId(uniqueKey);
+
         showSuccessToast();
+        createSurveytoBlockchain(firebaseID, totalBounty, numberOfRespondents);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -107,6 +128,14 @@ function Form2() {
     }
   }, [formData]);
 
+  useEffect(() => {
+    if (numberOfRespondents > 0) {
+      setBountyPerUser(totalBounty / numberOfRespondents);
+    } else {
+      setBountyPerUser(0);
+    }
+  }, [numberOfRespondents, totalBounty]);
+
   const addQuestion = () => {
     if (formData.length < 5) {
       setFormData((prevFormData) => [...prevFormData, { id: uuidv4() }]);
@@ -126,6 +155,16 @@ function Form2() {
   const validateForm = () => {
     if (!title) {
       toast.error("Please enter a survey title.", { position: "top-center" });
+      return false;
+    }
+    if (!numberOfRespondents) {
+      toast.error("Please enter amount of respondents intended", {
+        position: "top-center",
+      });
+      return false;
+    }
+    if (!totalBounty) {
+      toast.error("Please enter amount of bounty ", { position: "top-center" });
       return false;
     }
 
@@ -211,6 +250,7 @@ function Form2() {
       </div>
     </div>
   ));
+
   return (
     <>
       <div className="bg-gray-100 min-h-screen font-sans">
@@ -227,7 +267,7 @@ function Form2() {
           <div id="form-block" className="flex-col mx-auto">
             <div
               id="title-container"
-              className="flex items-center justify-center mx-auto text-center mb-10"
+              className="flex items-center justify-center mx-auto text-center mb-2"
             >
               <label className="mr-2 align-middle">Survey Title: </label>
               <input
@@ -239,6 +279,75 @@ function Form2() {
                   setTitle(e.target.value);
                 }}
               />
+            </div>
+            <div className="flex items-center justify-center mx-auto text-center mb-2 mr-2 ">
+              Survey Type:
+              <div className="flex items-center mr-4 ml-2">
+                <input
+                  type="radio"
+                  id="fixedLimit"
+                  name="respondentsOption"
+                  value="fixed"
+                  checked={respondentsOption === "fixed"}
+                  onChange={onRespondentsOptionChange}
+                />
+                <label htmlFor="fixedLimit" className="ml-2">
+                  Fixed Limit
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="noLimit"
+                  name="respondentsOption"
+                  value="noLimit"
+                  checked={respondentsOption === "noLimit"}
+                  onChange={onRespondentsOptionChange}
+                />
+                <label htmlFor="noLimit" className="ml-2">
+                  No Limit
+                </label>
+              </div>
+            </div>
+            <div
+              id="fixed-limt-form-container"
+              hidden={respondentsOption === "noLimit"}
+            >
+              <div
+                id="respondents-container"
+                className="flex items-center justify-center mx-auto text-center mb-2"
+              >
+                <label className="mr-2 align-middle"># of Respondents:</label>
+                <input
+                  type="number"
+                  className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle mr-10"
+                  placeholder="Enter # of Respondents"
+                  id="numberOfRespondents"
+                  onChange={(e) => {
+                    setNumberOfRespondents(e.target.value);
+                  }}
+                />
+              </div>
+              <div
+                id="bounty-container"
+                className="flex items-center justify-center mx-auto text-center "
+              >
+                <label className="ml-8 mr-2 align-middle">Total Bounty:</label>
+                <input
+                  type="number"
+                  className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle mr-2"
+                  placeholder="Enter Total Bounty"
+                  id="totalBounty"
+                  onChange={(e) => {
+                    setTotalBounty(e.target.value);
+                  }}
+                />
+                <h1 className="font-bold ">USD</h1>
+              </div>
+              <p className="flex items-center justify-center mx-auto text-center mb-5 ">
+                Bounty Per User :{"   "}
+                <span className="font-bold mx-2">{bountyPerUser}</span> USD
+              </p>
             </div>
             {questionBlocks}
           </div>
