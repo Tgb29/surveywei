@@ -84,8 +84,16 @@ function Home() {
                   <span className="font-semibold italic">Created by: </span>
                   {shortenedCreator}
                 </p>
+                <p className="mb-2 flex-grow font-bold">
+                  Bounty per User:{" "}
+                  <span className="font-normal">$ {survey.bountyPerUser}</span>
+                </p>
+                <p className="mb-2 flex-grow">
+                  <span className="font-semibold italic">Time Limit: </span>
+                  {survey.timeLength}
+                </p>
                 <Link
-                  to={`/survey/${survey.outerId}/${survey.id}`}
+                  to={`/start/${survey.outerId}/${survey.id}`}
                   className="btn btn-sm btn-primary self-start"
                 >
                   Take Survey

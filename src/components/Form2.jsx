@@ -14,6 +14,7 @@ function Form2() {
   const [numberOfRespondents, setNumberOfRespondents] = useState(0);
   const [totalBounty, setTotalBounty] = useState(0);
   const [bountyPerUser, setBountyPerUser] = useState(0);
+  const [timeLength, setTimeLength] = useState(null);
   const [formData, setFormData] = useState([{}]);
   const [questions, setQuestions] = useState([]);
   const [questionRefs, setQuestionRefs] = useState([React.createRef()]);
@@ -56,8 +57,13 @@ function Form2() {
     return newQuestions;
   };
 
-  const createSurveytoBlockchain = (firebaseID, bounty, respondents) => {
-    console.log(firebaseID, bounty, respondents);
+  const createSurveytoBlockchain = (
+    firebaseID,
+    bounty,
+    respondents,
+    timeLength
+  ) => {
+    console.log(firebaseID, bounty, respondents, timeLength);
   };
 
   const onClick = async () => {
@@ -94,6 +100,7 @@ function Form2() {
               creator: userAddress,
               questions: updatedQuestions,
               bountyPerUser: bountyPerUser,
+              timeLength: timeLength,
             },
           }),
           headers: { "Content-Type": "application/json" },
@@ -253,7 +260,7 @@ function Form2() {
 
   return (
     <>
-      <div className="bg-gray-100 min-h-screen font-sans">
+      <div className="bg-gray-300  font-sans pb-10">
         <div className="flex align-center justify-center mx-auto"></div>
         <div
           id="form-container"
@@ -279,6 +286,22 @@ function Form2() {
                   setTitle(e.target.value);
                 }}
               />
+            </div>
+            <div
+              id="time-length-container"
+              className="flex items-center justify-center mx-auto text-center mb-2"
+            >
+              <label className="mr-2 align-middle">Time Length </label>
+              <input
+                type="text"
+                className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle"
+                placeholder="Enter time length"
+                id="timeLength"
+                onChange={(e) => {
+                  setTimeLength(e.target.value);
+                }}
+              />
+              <p className="ml-2 font-bold"> in Minutes</p>
             </div>
             <div className="flex items-center justify-center mx-auto text-center mb-2 mr-2 ">
               Survey Type:

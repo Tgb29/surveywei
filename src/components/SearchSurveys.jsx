@@ -45,7 +45,7 @@ function SearchSurveys() {
             Object.entries(outerData).map(([id, surveyData]) => (
               <li key={id}>
                 <Link
-                  to={`/survey/${outerId}/${id}`}
+                  to={`/start/${outerId}/${id}`}
                   className="block rounded-lg bg-white p-4 shadow-md hover:bg-gray-200 transition duration-300 ease-in-out"
                 >
                   {surveyData.title}
