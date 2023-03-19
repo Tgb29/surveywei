@@ -15,8 +15,22 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
   const closeDropdown = () => {
     setDropdownOpen(false);
   };
-
+  const checkMetamaskConnection = async () => {
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
+        if (accounts.length > 0) {
+          setConnectedAddress(accounts[0]);
+        }
+      } catch (error) {
+        console.error("Error checking MetaMask connection:", error);
+      }
+    }
+  };
   useEffect(() => {
+    checkMetamaskConnection();
     const handleClickOutside = (e) => {
       if (
         e.target.closest("#hamburger-icon") === null &&
