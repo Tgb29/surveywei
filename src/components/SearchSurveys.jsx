@@ -34,7 +34,7 @@ function SearchSurveys() {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen font-sans">
+    <div className="bg-gray-100 min-h-screen font-sans pb-20">
       <div className="flex align-center justify-center mx-auto"></div>
       <div className="flex-col align-center justify-center mx-auto">
         <h1 className="font-bold text-2xl text-center mt-8 mb-4">
