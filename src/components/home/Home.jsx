@@ -65,7 +65,7 @@ function Home() {
       </section>
       <section className="recent-surveys">
         <h2 className="font-bold text-xl mb-5">Recent Surveys</h2>
-        <div className="survey-list">
+        <div className="survey-list grid grid-cols-2 md:grid-cols-4 gap-4">
           {recentSurveys.map((survey) => {
             const shortenedCreator = `${survey.creator.slice(
               0,
@@ -73,15 +73,18 @@ function Home() {
             )}...${survey.creator.slice(-5)}`;
 
             return (
-              <div key={survey.id} className="survey-item">
-                <h3 className="font-bold">{survey.title}</h3>
-                <p className="mb-3">
+              <div
+                key={survey.id}
+                className="survey-item border p-4 rounded shadow-md flex flex-col"
+              >
+                <h3 className="font-bold mb-2">{survey.title}</h3>
+                <p className="mb-3 flex-grow">
                   <span className="font-semibold italic">Created by: </span>
                   {shortenedCreator}
                 </p>
                 <Link
                   to={`/survey/${survey.outerId}/${survey.id}`}
-                  className="btn btn-sm btn-primary "
+                  className="btn btn-sm btn-primary self-start"
                 >
                   Take Survey
                 </Link>
