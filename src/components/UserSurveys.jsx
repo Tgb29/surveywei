@@ -2,11 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function UserSurveys() {
+function UserSurveys({ connectedAddress }) {
   const [surveys, setSurveys] = useState({});
 
-  const creatorAddress = "0xa209d66169840b201e56a80a2c73eb6d0427575d";
+  // const creatorAddress = "0xa209d66169840b201e56a80a2c73eb6d0427575d";
 
+  const creatorAddress = connectedAddress;
   async function fetchSurveysByCreator(creatorAddress) {
     try {
       const response = await fetch(

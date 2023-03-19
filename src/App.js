@@ -24,7 +24,10 @@ function App() {
               <Route path="/build" element={<Form2 />} />
               <Route path="/find" element={<SearchSurveys />} />
               <Route path="/survey/:key/:id" element={<Survey />} />
-              <Route path="/user/:connectedAddress" element={<UserSurveys />} />
+              <Route
+                path="/user/:connectedAddress"
+                element={<UserSurveys connectedAddress={connectedAddress} />}
+              />
             </Routes>
           </main>
         </Router>
