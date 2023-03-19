@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Start from "./Start";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import UserAddressContext from "../UserAddressContext";
 
 function Survey() {
   const { key, id } = useParams();
@@ -14,6 +15,25 @@ function Survey() {
 
   const [timeLeft, setTimeLeft] = useState(null);
   const [timer, setTimer] = useState(null);
+
+  const [isUserCreator, setIsUserCreator] = useState(false);
+
+  const connectedAddress = useContext(UserAddressContext);
+  console.log(typeof connectedAddress, typeof surveyData?.creator);
+  console.log(connectedAddress, surveyData?.creator);
+
+  useEffect(() => {
+    // Check if the connected address is the same as the creator in the survey data
+    if (
+      surveyData &&
+      connectedAddress &&
+      surveyData.creator?.toLowerCase() === connectedAddress.toLowerCase()
+    ) {
+      setIsUserCreator(true);
+    } else {
+      setIsUserCreator(false);
+    }
+  }, [surveyData, connectedAddress]);
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -124,12 +144,14 @@ function Survey() {
 
   return (
     <>
-      <Start
-        timeLimit={30}
-        bountyPerUser={5}
-        onStart={startTimer}
-        resetStartState={resetStartState}
-      />
+      {!isUserCreator && (
+        <Start
+          timeLimit={30}
+          bountyPerUser={5}
+          onStart={startTimer}
+          resetStartState={resetStartState}
+        />
+      )}
       <ToastContainer position="top-center" />
       <div className="bg-gray-100 min-h-screen font-sans pt-8">
         <div className="flex flex-col items-center">
@@ -156,7 +178,10 @@ function Survey() {
           className="flex flex-col items-center"
           onSubmit={handleSubmit}
           style={{
-            pointerEvents: timeLeft === 0 || formSubmitted ? "none" : "auto",
+            pointerEvents:
+              timeLeft === 0 || formSubmitted || isUserCreator
+                ? "none"
+                : "auto",
           }}
         >
           {surveyData.questions &&
