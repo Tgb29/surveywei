@@ -1,9 +1,60 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Start from "./Start";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 function Survey() {
   const { key, id } = useParams();
   const [surveyData, setSurveyData] = useState(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const navigate = useNavigate();
+
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [timer, setTimer] = useState(null);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      localStorage.removeItem("startActive");
+      localStorage.removeItem("timeLeft");
+
+      toast.error("Time expired");
+      resetStartState(); // Call resetStartState here
+      setTimeout(() => {
+        navigate("/find");
+      }, 2000);
+    }
+  }, [timeLeft]);
+
+  const startTimer = () => {
+    const currentTimeLeft = JSON.parse(localStorage.getItem("timeLeft"));
+    if (currentTimeLeft) {
+      setTimeLeft(currentTimeLeft);
+    } else {
+      setTimeLeft(30 * 60);
+    }
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  };
+
+  useEffect(() => {
+    if (timeLeft !== null) {
+      const timerId = setInterval(() => {
+        setTimeLeft((prevTimeLeft) => {
+          localStorage.setItem("timeLeft", JSON.stringify(prevTimeLeft - 1));
+          return prevTimeLeft - 1;
+        });
+      }, 1000);
+      setTimer(timerId);
+      return () => clearInterval(timerId);
+    }
+  }, [timeLeft]);
 
   async function fetchSurveyData() {
     try {
@@ -28,6 +79,9 @@ function Survey() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    clearInterval(timer);
+    setFormSubmitted(true);
+
     const responses = surveyData.questions.map((_, questionIndex) => {
       const checkedAnswer = document.querySelector(
         `input[name="question-${questionIndex}"]:checked`
@@ -40,8 +94,15 @@ function Survey() {
       creator: surveyData?.creator || "Unknown", // Using optional chaining and fallback value
       responses: responses,
     };
+    localStorage.removeItem("startActive");
+    localStorage.removeItem("timeLeft");
 
     console.log("Responses:", responseData);
+    console.log("Survey submitted, time stopped");
+    resetStartState();
+    setTimeout(() => {
+      navigate("/");
+    }, 3000);
   };
 
   const formatQuestion = (questionText) => {
@@ -57,47 +118,84 @@ function Survey() {
     return <div>Loading...</div>;
   }
 
+  const resetStartState = () => {
+    localStorage.removeItem("startActive");
+  };
+
   return (
-    <div className="bg-gray-100 min-h-screen font-sans pt-8">
-      <h1 className="font-bold text-3xl text-center mb-4">
-        {surveyData.title}
-      </h1>
-      <form className="flex flex-col items-center" onSubmit={handleSubmit}>
-        {surveyData.questions &&
-          surveyData.questions.map((question, questionIndex) => (
-            <div
-              key={questionIndex}
-              className="border-2 mb-10 p-6 bg-white rounded shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2"
-            >
-              <h3 className="font-bold text-xl mb-6 text-center">
-                {formatQuestion(question.question)}
-              </h3>
-              {question.answers.map((answer, answerIndex) => (
-                <div key={answerIndex} className="mb-2 text-center">
-                  <input
-                    type="radio"
-                    id={`question-${questionIndex}-answer-${answerIndex}`}
-                    name={`question-${questionIndex}`}
-                    value={answer}
-                    className="mr-2"
-                  />
-                  <label
-                    htmlFor={`question-${questionIndex}-answer-${answerIndex}`}
-                  >
-                    {answer}
-                  </label>
-                </div>
-              ))}
+    <>
+      <Start
+        timeLimit={30}
+        bountyPerUser={5}
+        onStart={startTimer}
+        resetStartState={resetStartState}
+      />
+      <ToastContainer position="top-center" />
+      <div className="bg-gray-100 min-h-screen font-sans pt-8">
+        <div className="flex flex-col items-center">
+          {timeLeft !== null && (
+            <div className="text-3xl font-bold  md:hidden mb-4">
+              Time Left: {formatTime(timeLeft)}
             </div>
-          ))}
-        <button
-          type="submit"
-          className="btn rounded-xl py-2 px-4 bg-blue-500 text-white flex align-center justify-center text-center mx-auto my-1 mb-3"
+          )}
+          <h1 className="font-bold text-3xl text-center mb-4 text-blue-700">
+            {surveyData.title}
+          </h1>
+          {timeLeft !== null && (
+            <div
+              className="hidden lg:block text-3xl font-bold fixed right-10 top-0 p-4 lg:top-1/2 lg:-translate-y-1/2"
+              style={{ zIndex: 1000 }}
+            >
+              {timeLeft !== null && (
+                <div>Time Left: {formatTime(timeLeft)}</div>
+              )}
+            </div>
+          )}
+        </div>
+        <form
+          className="flex flex-col items-center"
+          onSubmit={handleSubmit}
+          style={{
+            pointerEvents: timeLeft === 0 || formSubmitted ? "none" : "auto",
+          }}
         >
-          Submit
-        </button>
-      </form>
-    </div>
+          {surveyData.questions &&
+            surveyData.questions.map((question, questionIndex) => (
+              <div
+                key={questionIndex}
+                className="border-2 mb-10 p-6 bg-white rounded shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2"
+              >
+                <h3 className="font-bold text-xl mb-6 text-center text-blue-700">
+                  {formatQuestion(question.question)}
+                </h3>
+                {question.answers.map((answer, answerIndex) => (
+                  <div key={answerIndex} className="mb-2 text-center">
+                    <input
+                      type="radio"
+                      id={`question-${questionIndex}-answer-${answerIndex}`}
+                      name={`question-${questionIndex}`}
+                      value={answer}
+                      className="mr-2"
+                    />
+                    <label
+                      htmlFor={`question-${questionIndex}-answer-${answerIndex}`}
+                      className="text-gray-700"
+                    >
+                      {answer}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            ))}
+          <button
+            type="submit"
+            className="btn rounded-xl py-2 px-4 bg-blue-500 text-white flex align-center justify-center text-center mx-auto my-1 mb-3 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 focus:outline-none"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 

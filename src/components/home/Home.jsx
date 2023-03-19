@@ -93,7 +93,7 @@ function Home() {
                   {survey.timeLength}
                 </p>
                 <Link
-                  to={`/start/${survey.outerId}/${survey.id}`}
+                  to={`/survey/${survey.outerId}/${survey.id}`}
                   className="btn btn-sm btn-primary self-start"
                 >
                   Take Survey
