@@ -55,7 +55,7 @@ function SearchSurveys() {
   const displayedSurveys = surveysArray.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-gray-100 min-h-screen font-sans pb-20">
+    <div className="bg-blue-300 min-h-screen font-sans pb-20">
       <div className="flex align-center justify-center mx-auto"></div>
       <div className="flex-col align-center justify-center mx-auto">
         <h1 className="font-bold text-2xl text-center mt-8 mb-4">
@@ -68,7 +68,7 @@ function SearchSurveys() {
                 key={id}
                 className="survey-item border p-4 rounded shadow-md flex flex-col text-center"
               >
-                <h3 className="font-bold mb-2">{surveyData.title}</h3>
+                <h3 className="font-bold mb-2">Title: {surveyData.title}</h3>
                 <p className="mb-3 flex-grow">
                   <span className="font-semibold italic">Created by: </span>
                   {`${surveyData.creator.slice(
@@ -99,17 +99,17 @@ function SearchSurveys() {
         <div className="mt-8 flex justify-center">
           <button
             onClick={handleClickPrev}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
+            className="bg-[#16a085] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
             disabled={currentPage === 1}
           >
             Prev
           </button>
-          <div className="border-t border-b border-gray-300 px-4 py-2">
+          <div className=" bg-gray-300 border-t border-b border-gray-300 px-4 py-2">
             Page {currentPage} of {totalPages}
           </div>
           <button
             onClick={handleClickNext}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-1"
+            className="bg-[#16a085] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-1"
           >
             Next
           </button>
