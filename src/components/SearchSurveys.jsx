@@ -40,15 +40,36 @@ function SearchSurveys() {
         <h1 className="font-bold text-2xl text-center mt-8 mb-4">
           All Surveys{" "}
         </h1>
-        <ul className="list-none space-y-4 px-4">
+        <ul className="grid grid-cols-2 md:grid-cols-2 gap-4 mx-4">
           {Object.entries(surveys).map(([outerId, outerData]) =>
             Object.entries(outerData).map(([id, surveyData]) => (
-              <li key={id}>
+              <li
+                key={id}
+                className="survey-item border p-4 rounded shadow-md flex flex-col text-center"
+              >
+                <h3 className="font-bold mb-2">{surveyData.title}</h3>
+                <p className="mb-3 flex-grow">
+                  <span className="font-semibold italic">Created by: </span>
+                  {`${surveyData.creator.slice(
+                    0,
+                    4
+                  )}...${surveyData.creator.slice(-5)}`}
+                </p>
+                <p className="mb-2 flex-grow font-bold">
+                  Bounty per User:{" "}
+                  <span className="font-normal">
+                    $ {surveyData.bountyPerUser}
+                  </span>
+                </p>
+                <p className="mb-2 flex-grow">
+                  <span className="font-semibold italic">Time Limit: </span>
+                  {surveyData.timeLength}
+                </p>
                 <Link
                   to={`/survey/${outerId}/${id}`}
-                  className="block rounded-lg bg-white p-4 shadow-md hover:bg-gray-200 transition duration-300 ease-in-out"
+                  className="btn btn-sm btn-primary self-start"
                 >
-                  {surveyData.title}
+                  Take Survey
                 </Link>
               </li>
             ))
