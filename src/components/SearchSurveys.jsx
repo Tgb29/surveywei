@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 function SearchSurveys() {
   const [surveys, setSurveys] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   async function getAllSurveys() {
     try {
@@ -33,6 +35,25 @@ function SearchSurveys() {
     fetchData();
   }, []);
 
+  const totalPages = Math.ceil(Object.keys(surveys).length / itemsPerPage);
+
+  const handleClickNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handleClickPrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const surveysArray = Object.entries(surveys);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedSurveys = surveysArray.slice(startIndex, endIndex);
+
   return (
     <div className="bg-gray-100 min-h-screen font-sans pb-20">
       <div className="flex align-center justify-center mx-auto"></div>
@@ -41,7 +62,7 @@ function SearchSurveys() {
           All Surveys{" "}
         </h1>
         <ul className="grid grid-cols-2 md:grid-cols-2 gap-4 mx-4">
-          {Object.entries(surveys).map(([outerId, outerData]) =>
+          {displayedSurveys.map(([outerId, outerData]) =>
             Object.entries(outerData).map(([id, surveyData]) => (
               <li
                 key={id}
@@ -75,6 +96,24 @@ function SearchSurveys() {
             ))
           )}
         </ul>
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={handleClickPrev}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <div className="border-t border-b border-gray-300 px-4 py-2">
+            Page {currentPage} of {totalPages}
+          </div>
+          <button
+            onClick={handleClickNext}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-1"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
