@@ -5,6 +5,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import UserAddressContext from "../UserAddressContext";
+import Web3 from "web3";
+import Web3Modal from "web3modal";
+import { v4 as uuidv4 } from "uuid";
 
 function Survey() {
   const { key, id } = useParams();
@@ -97,10 +100,33 @@ function Survey() {
     fetchSurveyData();
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const connectToMetaMask = async () => {
+    const web3Modal = new Web3Modal();
+    const provider = await web3Modal.connect();
+    const web3 = new Web3(provider);
+    const accounts = await web3.eth.getAccounts();
+    return accounts[0];
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     clearInterval(timer);
     setFormSubmitted(true);
+
+    let userAddress = connectedAddress;
+    if (!userAddress) {
+      try {
+        userAddress = await connectToMetaMask();
+      } catch (error) {
+        toast.error(
+          "Please connect to MetaMask before submitting the survey.",
+          {
+            position: "top-center",
+          }
+        );
+        return;
+      }
+    }
 
     const responses = surveyData.questions.map((_, questionIndex) => {
       const checkedAnswer = document.querySelector(
@@ -113,7 +139,38 @@ function Survey() {
     const responseData = {
       creator: surveyData?.creator || "Unknown", // Using optional chaining and fallback value
       responses: responses,
+      taker: userAddress || "Unknown",
+      firebaseID: key,
+      bountyPerUser: surveyData?.bountyPerUser,
     };
+
+    try {
+      const response = await fetch(
+        "https://surveywei-1b1e0-default-rtdb.firebaseio.com/responses.json",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            [uuidv4()]: {
+              title: surveyData?.title,
+              creator: surveyData?.creator || "Unknown", // Using optional chaining and fallback value
+              responses: responses,
+              taker: userAddress || "Unknown",
+              bountyEarned: surveyData?.bountyPerUser,
+              firebaseID: key,
+              timeStarted: Date.now(),
+            },
+          }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (response.ok) {
+        const responseBody = await response.json(); // Extract the JSON object from the response body
+        const uniqueKey = responseBody.name; // Get the unique key from the JSON object
+        console.log("Firebase unique key:", uniqueKey); // Use the unique key as needed
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
     localStorage.removeItem("startActive");
     localStorage.removeItem("timeLeft");
 
@@ -146,8 +203,8 @@ function Survey() {
     <>
       {!isUserCreator && (
         <Start
-          timeLimit={30}
-          bountyPerUser={5}
+          timeLimit={surveyData?.timeLimit || 5}
+          bountyPerUser={surveyData?.bountyPerUser || 0}
           onStart={startTimer}
           resetStartState={resetStartState}
         />

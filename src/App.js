@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserAddressContext from "./UserAddressContext";
 import UserSurveys from "./components/UserSurveys";
 import Start from "./components/Start";
+import SurveyDetails from "./components/SurveyDetails";
 
 import { useState } from "react";
 function App() {
@@ -24,7 +25,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/build" element={<Form2 />} />
               <Route path="/find" element={<SearchSurveys />} />
-              <Route path="/start/:key/:id" element={<Start />} />
+              <Route
+                path="/surveyDetails/:key/:id"
+                element={<SurveyDetails />}
+              />
               <Route path="/survey/:key/:id" element={<Survey />} />
               <Route
                 path="/user/:connectedAddress"

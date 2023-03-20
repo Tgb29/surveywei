@@ -260,7 +260,7 @@ function Form2() {
 
   return (
     <>
-      <div className="bg-gray-300  font-sans pb-10">
+      <div className="bg-blue-300  font-sans pb-10">
         <div className="flex align-center justify-center mx-auto"></div>
         <div
           id="form-container"
@@ -291,7 +291,7 @@ function Form2() {
               id="time-length-container"
               className="flex items-center justify-center mx-auto text-center mb-2"
             >
-              <label className="mr-2 align-middle">Time Length </label>
+              <label className="ml-20 mr-2">Time Length: </label>
               <input
                 type="text"
                 className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle"
@@ -378,7 +378,7 @@ function Form2() {
         <button
           type="button"
           onClick={onClick}
-          className="btn rounded-xl py-2 px-4 bg-blue-500 text-white flex align-center justify-center text-center mx-auto my-1 mb-3"
+          className="btn rounded-xl py-2 px-4 bg-[#16a085] text-white flex align-center justify-center text-center mx-auto my-1 mb-3"
         >
           Submit Survey
         </button>
