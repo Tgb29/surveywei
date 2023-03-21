@@ -57,15 +57,6 @@ function Form2() {
     return newQuestions;
   };
 
-  const createSurveytoBlockchain = (
-    firebaseID,
-    bounty,
-    respondents,
-    timeLength
-  ) => {
-    console.log(firebaseID, bounty, respondents, timeLength);
-  };
-
   const onClick = async () => {
     if (!validateForm()) {
       return;
@@ -110,14 +101,31 @@ function Form2() {
         const responseBody = await response.json(); // Extract the JSON object from the response body
         const uniqueKey = responseBody.name; // Get the unique key from the JSON object
         console.log("Firebase unique key:", uniqueKey); // Use the unique key as needed
+        console.log(responseBody);
+        console.log(response);
         setFirebaseId(uniqueKey);
 
         showSuccessToast();
-        createSurveytoBlockchain(firebaseID, totalBounty, numberOfRespondents);
+        console.log(uniqueKey);
+        createSurveytoBlockchain(
+          uniqueKey,
+          totalBounty,
+          numberOfRespondents,
+          timeLength
+        );
       }
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const createSurveytoBlockchain = (
+    firebaseID,
+    bounty,
+    respondents,
+    timeLength
+  ) => {
+    console.log(firebaseID, bounty, respondents, timeLength);
   };
 
   const showSuccessToast = () => {
