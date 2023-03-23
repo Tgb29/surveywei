@@ -31,7 +31,9 @@ function App() {
               />
               <Route
                 path="/user/surveyDetails/:key/:id"
-                element={<CreatorSurveyDetails />}
+                element={
+                  <CreatorSurveyDetails connectedAddress={connectedAddress} />
+                }
               />
               <Route path="/survey/:key/:id" element={<Survey />} />
               <Route
