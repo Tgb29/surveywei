@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UserAddressContext from "../UserAddressContext";
+import UserAddressContext from "../../UserAddressContext";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 
@@ -268,117 +268,121 @@ function Form2() {
 
   return (
     <>
-      <div className="bg-blue-300  font-sans pb-10">
+      <div className="bg-[#4bc7e8]  font-sans pb-10">
         <div className="flex align-center justify-center mx-auto"></div>
         <div
           id="form-container"
           className="flex-col align-center justify-center mx-auto "
         >
           <div id="headline-container">
-            <h1 className="font-bold text-2xl text-center mt-8 mb-4">
+            <h1 className="font-bold text-2xl text-center mt-8 mb-4 text-[#1c1b53]">
               Create Survey
             </h1>
           </div>
           <div id="form-block" className="flex-col mx-auto">
-            <div
-              id="title-container"
-              className="flex items-center justify-center mx-auto text-center mb-2"
-            >
-              <label className="mr-2 align-middle">Survey Title: </label>
-              <input
-                type="text"
-                className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle"
-                placeholder="Enter Survey Title"
-                id="title"
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-            </div>
-            <div
-              id="time-length-container"
-              className="flex items-center justify-center mx-auto text-center mb-2"
-            >
-              <label className="ml-20 mr-2">Time Length: </label>
-              <input
-                type="text"
-                className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle"
-                placeholder="Enter time length"
-                id="timeLength"
-                onChange={(e) => {
-                  setTimeLength(e.target.value);
-                }}
-              />
-              <p className="ml-2 font-bold"> in Minutes</p>
-            </div>
-            <div className="flex items-center justify-center mx-auto text-center mb-2 mr-2 ">
-              Survey Type:
-              <div className="flex items-center mr-4 ml-2">
-                <input
-                  type="radio"
-                  id="fixedLimit"
-                  name="respondentsOption"
-                  value="fixed"
-                  checked={respondentsOption === "fixed"}
-                  onChange={onRespondentsOptionChange}
-                />
-                <label htmlFor="fixedLimit" className="ml-2">
-                  Fixed Limit
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  id="noLimit"
-                  name="respondentsOption"
-                  value="noLimit"
-                  checked={respondentsOption === "noLimit"}
-                  onChange={onRespondentsOptionChange}
-                />
-                <label htmlFor="noLimit" className="ml-2">
-                  No Limit
-                </label>
-              </div>
-            </div>
-            <div
-              id="fixed-limt-form-container"
-              hidden={respondentsOption === "noLimit"}
-            >
+            <div className="flex-col align-center justify-center mx-auto text-center border-2 mb-10 p-4 bg-white rounded shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
               <div
-                id="respondents-container"
+                id="title-container"
                 className="flex items-center justify-center mx-auto text-center mb-2"
               >
-                <label className="mr-2 align-middle"># of Respondents:</label>
+                <label className="mr-2 align-middle">Survey Title: </label>
                 <input
-                  type="number"
-                  className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle mr-10"
-                  placeholder="Enter # of Respondents"
-                  id="numberOfRespondents"
+                  type="text"
+                  className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle"
+                  placeholder="Enter Survey Title"
+                  id="title"
                   onChange={(e) => {
-                    setNumberOfRespondents(e.target.value);
+                    setTitle(e.target.value);
                   }}
                 />
               </div>
               <div
-                id="bounty-container"
-                className="flex items-center justify-center mx-auto text-center "
+                id="time-length-container"
+                className="flex items-center justify-center mx-auto text-center mb-2"
               >
-                <label className="ml-8 mr-2 align-middle">Total Bounty:</label>
+                <label className="ml-20 mr-2">Time Length: </label>
                 <input
-                  type="number"
-                  className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle mr-2"
-                  placeholder="Enter Total Bounty"
-                  id="totalBounty"
+                  type="text"
+                  className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle"
+                  placeholder="Enter time length"
+                  id="timeLength"
                   onChange={(e) => {
-                    setTotalBounty(e.target.value);
+                    setTimeLength(e.target.value);
                   }}
                 />
-                <h1 className="font-bold ">USD</h1>
+                <p className="ml-2 font-bold"> in Minutes</p>
               </div>
-              <p className="flex items-center justify-center mx-auto text-center mb-5 ">
-                Bounty Per User :{"   "}
-                <span className="font-bold mx-2">{bountyPerUser}</span> USD
-              </p>
+              <div className="flex items-center justify-center mx-auto text-center mb-2 mr-2 ">
+                Survey Type:
+                <div className="flex items-center mr-4 ml-2">
+                  <input
+                    type="radio"
+                    id="fixedLimit"
+                    name="respondentsOption"
+                    value="fixed"
+                    checked={respondentsOption === "fixed"}
+                    onChange={onRespondentsOptionChange}
+                  />
+                  <label htmlFor="fixedLimit" className="ml-2">
+                    Fixed Limit
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="noLimit"
+                    name="respondentsOption"
+                    value="noLimit"
+                    checked={respondentsOption === "noLimit"}
+                    onChange={onRespondentsOptionChange}
+                  />
+                  <label htmlFor="noLimit" className="ml-2">
+                    No Limit
+                  </label>
+                </div>
+              </div>
+              <div
+                id="fixed-limt-form-container"
+                hidden={respondentsOption === "noLimit"}
+              >
+                <div
+                  id="respondents-container"
+                  className="flex items-center justify-center mx-auto text-center mb-2"
+                >
+                  <label className="mr-2 align-middle"># of Respondents:</label>
+                  <input
+                    type="number"
+                    className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle mr-10"
+                    placeholder="Enter # of Respondents"
+                    id="numberOfRespondents"
+                    onChange={(e) => {
+                      setNumberOfRespondents(e.target.value);
+                    }}
+                  />
+                </div>
+                <div
+                  id="bounty-container"
+                  className="flex items-center justify-center mx-auto text-center "
+                >
+                  <label className="ml-8 mr-2 align-middle">
+                    Total Bounty:
+                  </label>
+                  <input
+                    type="number"
+                    className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle mr-2"
+                    placeholder="Enter Total Bounty"
+                    id="totalBounty"
+                    onChange={(e) => {
+                      setTotalBounty(e.target.value);
+                    }}
+                  />
+                  <h1 className="font-bold ">USD</h1>
+                </div>
+                <p className="flex items-center justify-center mx-auto text-center mb-5 ">
+                  Bounty Per User :{"   "}
+                  <span className="font-bold mx-2">{bountyPerUser}</span> USD
+                </p>
+              </div>
             </div>
             {questionBlocks}
           </div>
@@ -386,7 +390,7 @@ function Form2() {
         <button
           type="button"
           onClick={onClick}
-          className="btn rounded-xl py-2 px-4 bg-[#16a085] text-white flex align-center justify-center text-center mx-auto my-1 mb-3"
+          className="btn rounded-xl py-2 px-4 bg-[#6166ae] text-white flex align-center justify-center text-center mx-auto my-1 mb-3"
         >
           Submit Survey
         </button>

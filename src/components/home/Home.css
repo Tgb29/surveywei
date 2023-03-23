@@ -4,8 +4,8 @@
 }
 
 .hero {
-  background-color: #4a86e8;
-  color: white;
+  background-color: #6166ae;
+  color: #1c1b53;
   padding: 100px 0;
   text-align: center;
 }
@@ -30,7 +30,7 @@
 }
 
 .btn-primary {
-  background-color: #1abc9c;
+  background-color: #5cc5c6;
   color: white;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .btn-secondary {
-  background-color: #34495e;
+  background-color: #1c1b53;
   color: white;
 }
 
@@ -72,7 +72,7 @@
 }
 
 footer {
-  background-color: #1c3d5a;
+  background-color: #1c1b53;
   color: white;
   padding: 20px 0;
   text-align: center;

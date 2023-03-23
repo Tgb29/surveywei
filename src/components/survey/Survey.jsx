@@ -4,7 +4,7 @@ import Start from "./Start";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import UserAddressContext from "../UserAddressContext";
+import UserAddressContext from "../../UserAddressContext";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 import { v4 as uuidv4 } from "uuid";

@@ -55,10 +55,10 @@ function SearchSurveys() {
   const displayedSurveys = surveysArray.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-blue-300 min-h-screen font-sans pb-20">
+    <div className="bg-[#4bc7e8] min-h-screen font-sans pb-20">
       <div className="flex align-center justify-center mx-auto"></div>
       <div className="flex-col align-center justify-center mx-auto">
-        <h1 className="font-bold text-2xl text-center mt-8 mb-4 ">
+        <h1 className="font-bold text-2xl text-center mt-8 mb-4 text-[#1c1b53]">
           All Surveys{" "}
         </h1>
         <ul className="grid grid-cols-2 md:grid-cols-2 gap-4 mx-4">
@@ -99,7 +99,7 @@ function SearchSurveys() {
         <div className="mt-8 flex justify-center">
           <button
             onClick={handleClickPrev}
-            className="bg-[#16a085] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
+            className="bg-[#6166ae] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
             disabled={currentPage === 1}
           >
             Prev
@@ -109,7 +109,7 @@ function SearchSurveys() {
           </div>
           <button
             onClick={handleClickNext}
-            className="bg-[#16a085] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-1"
+            className="bg-[#6166ae] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-1"
           >
             Next
           </button>

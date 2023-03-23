@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SurveyWeiLogo from "../../assets/SurveyWeiLogo.svg";
 import { useLocation } from "react-router-dom";
+import Logo from "../../assets/LogoTransparent.png";
 // import Web3 from "web3";
 
 function Navbar({ connectedAddress, setConnectedAddress }) {
@@ -89,14 +90,21 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
   };
   return (
     <>
-      <div id="navbar-container" className="flex border-b-2 bg-white">
-        <Link to="/" className="flex items-center w-full md:w-1/3 py-5 pl-5">
-          <img src={SurveyWeiLogo} alt="SurveyWei Logo" className="mr-2" />
+      <div
+        id="navbar-container"
+        className="flex border-b-2 bg-white py-1 md:py-0"
+      >
+        <Link to="/" className="flex items-center w-full md:w-1/3 pl-5">
+          <img
+            src={Logo}
+            alt="SurveyWei Logo"
+            className="w-1/3 md:w-1/4 max-w-full max-h-20 md:max-h-24"
+          />
           <div
             id="logo-container"
-            className="text-2xl md:text-3xl font-bold text-black"
+            className="ml-[-20px] md:ml-[-26px] text-2xl md:text-3xl font-bold text-[#1c1b53]"
           >
-            Survey<span className="text-blue-500">Wei</span>
+            Survey<span className="text-[#4bc7e8]">Wei</span>
           </div>
         </Link>
         <div
@@ -104,29 +112,29 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
           className="hidden md:flex items-center justify-end w-2/3 pr-5 space-x-10"
         >
           <Link to="/find" className="flex m-auto">
-            <button className="nav-link btn btn-link font-semibold text-gray-700 hover:text-gray-900">
+            <button className="nav-link btn btn-link font-semibold text-[#1c1b53] hover:text-[#4bc7e8]">
               Find Survey
             </button>
           </Link>
           <Link to="/build" className="flex m-auto">
-            <button className="nav-link btn btn-link font-semibold text-gray-700 hover:text-gray-900">
+            <button className="nav-link btn btn-link font-semibold text-[#1c1b53] hover:text-[#4bc7e8]">
               Build Survey
             </button>
           </Link>
           <button
             className={`${
               connectedAddress ? "hidden" : ""
-            } bg-blue-500 rounded-full px-4 py-2 text-white font-semibold hover:bg-blue-600`}
+            } bg-[#4bc7e8] rounded-full px-4 py-2 text-white font-semibold hover:bg-blue-600`}
             onClick={connectMetamask}
           >
             Connect
           </button>
           {connectedAddress ? (
             <Link to={`/user/${connectedAddress}`}>
-              <i className="fas fa-user-circle text-blue-500 text-4xl cursor-pointer"></i>
+              <i className="fas fa-user-circle text-[#4bc7e8] text-4xl cursor-pointer"></i>
             </Link>
           ) : (
-            <i className="hidden fas fa-user-circle text-blue-500 text-4xl cursor-pointer"></i>
+            <i className="hidden fas fa-user-circle text-[#4bc7e8] text-4xl cursor-pointer"></i>
           )}
         </div>
         <div className="md:hidden w-1/3 flex justify-center items-center">
@@ -140,15 +148,15 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
           <i
             className={`${
               connectedAddress ? "hidden" : ""
-            } fas fa-wallet text-blue-500 text-2xl cursor-pointer`}
+            } fas fa-wallet text-[#4bc7e8] text-2xl cursor-pointer`}
             onClick={connectMetamask}
           ></i>
           {connectedAddress ? (
             <Link to={`/user/${connectedAddress}`}>
-              <i className="fas fa-user-circle text-blue-500 text-3xl cursor-pointer"></i>
+              <i className="fas fa-user-circle text-[#4bc7e8] text-3xl cursor-pointer"></i>
             </Link>
           ) : (
-            <i className="hidden fas fa-user-circle text-blue-500 text-3xl cursor-pointer"></i>
+            <i className="hidden fas fa-user-circle text-[#4bc7e8] text-3xl cursor-pointer"></i>
           )}
         </div>
 
