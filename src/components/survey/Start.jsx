@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function Start({ timeLimit, bountyPerUser, onStart, resetStartState }) {
+function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
   const { key, id } = useParams();
 
   const [active, setActive] = useState(
@@ -46,11 +46,11 @@ function Start({ timeLimit, bountyPerUser, onStart, resetStartState }) {
               You will have {timeLimit} minutes to complete this survey
             </p>
             <p className="mb-6">
-              Upon completion you will receive ${bountyPerUser}
+              Upon completion you will receive ${rewardPerUser}
             </p>
             <button
               // to={`/survey/${key}/${id}`}
-              className="btn rounded-xl bg-[lightgreen] flex w-40 mx-auto align-center justify-center mb-6"
+              className="btn rounded-xl bg-[#5cc5c6] hover:bg-[#16a085] flex w-40 mx-auto align-center justify-center mb-6"
               onClick={continueToSurvey}
             >
               Start Survey

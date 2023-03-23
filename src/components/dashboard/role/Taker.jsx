@@ -59,7 +59,7 @@ function Taker({ connectedAddress }) {
           <tr>
             <th className="border-2 border-gray-500 p-2">Survey Title</th>
             <th className="border-2 border-gray-500 p-2">Creator</th>
-            <th className="border-2 border-gray-500 p-2">Bounty Earned</th>
+            <th className="border-2 border-gray-500 p-2">Reward Earned</th>
             <th className="border-2 border-gray-500 p-2">Details</th>
           </tr>
         </thead>
@@ -77,7 +77,7 @@ function Taker({ connectedAddress }) {
                   )}...${surveyData?.creator.slice(-5)}`}
                 </td>
                 <td className="border-2 border-gray-500 p-2">
-                  {surveyData?.bountyEarned || 0}
+                  {surveyData?.rewardEarned || 0}
                 </td>
                 <td className="border-2 border-gray-500 p-4">
                   <Link

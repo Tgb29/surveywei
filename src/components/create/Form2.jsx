@@ -12,8 +12,8 @@ function Form2() {
   const [title, setTitle] = useState("");
   const [respondentsOption, setRespondentsOption] = useState("fixed");
   const [numberOfRespondents, setNumberOfRespondents] = useState(0);
-  const [totalBounty, setTotalBounty] = useState(0);
-  const [bountyPerUser, setBountyPerUser] = useState(0);
+  const [totalReward, setTotalReward] = useState(0);
+  const [rewardPerUser, setRewardPerUser] = useState(0);
   const [timeLength, setTimeLength] = useState(null);
   const [formData, setFormData] = useState([{}]);
   const [questions, setQuestions] = useState([]);
@@ -90,7 +90,7 @@ function Form2() {
               title: title,
               creator: userAddress,
               questions: updatedQuestions,
-              bountyPerUser: bountyPerUser,
+              rewardPerUser: rewardPerUser,
               timeLength: timeLength,
             },
           }),
@@ -109,7 +109,7 @@ function Form2() {
         console.log(uniqueKey);
         createSurveytoBlockchain(
           uniqueKey,
-          totalBounty,
+          totalReward,
           numberOfRespondents,
           timeLength
         );
@@ -121,11 +121,11 @@ function Form2() {
 
   const createSurveytoBlockchain = (
     firebaseID,
-    bounty,
+    reward,
     respondents,
     timeLength
   ) => {
-    console.log(firebaseID, bounty, respondents, timeLength);
+    console.log(firebaseID, reward, respondents, timeLength);
   };
 
   const showSuccessToast = () => {
@@ -145,11 +145,11 @@ function Form2() {
 
   useEffect(() => {
     if (numberOfRespondents > 0) {
-      setBountyPerUser(totalBounty / numberOfRespondents);
+      setRewardPerUser(totalReward / numberOfRespondents);
     } else {
-      setBountyPerUser(0);
+      setRewardPerUser(0);
     }
-  }, [numberOfRespondents, totalBounty]);
+  }, [numberOfRespondents, totalReward]);
 
   const addQuestion = () => {
     if (formData.length < 5) {
@@ -178,8 +178,8 @@ function Form2() {
       });
       return false;
     }
-    if (!totalBounty) {
-      toast.error("Please enter amount of bounty ", { position: "top-center" });
+    if (!totalReward) {
+      toast.error("Please enter amount of reward ", { position: "top-center" });
       return false;
     }
 
@@ -361,26 +361,26 @@ function Form2() {
                   />
                 </div>
                 <div
-                  id="bounty-container"
+                  id="reward-container"
                   className="flex items-center justify-center mx-auto text-center "
                 >
                   <label className="ml-8 mr-2 align-middle">
-                    Total Bounty:
+                    Total reward:
                   </label>
                   <input
                     type="number"
                     className="border-2 bg-gray-100 shadow-md mt-3 mb-4 px-2 py-1 align-middle mr-2"
-                    placeholder="Enter Total Bounty"
-                    id="totalBounty"
+                    placeholder="Enter Total Rewards"
+                    id="reward"
                     onChange={(e) => {
-                      setTotalBounty(e.target.value);
+                      setTotalReward(e.target.value);
                     }}
                   />
                   <h1 className="font-bold ">USD</h1>
                 </div>
                 <p className="flex items-center justify-center mx-auto text-center mb-5 ">
-                  Bounty Per User :{"   "}
-                  <span className="font-bold mx-2">{bountyPerUser}</span> USD
+                  Reward per user :{"   "}
+                  <span className="font-bold mx-2">{rewardPerUser}</span> USD
                 </p>
               </div>
             </div>

@@ -141,7 +141,7 @@ function Survey() {
       responses: responses,
       taker: userAddress || "Unknown",
       firebaseID: key,
-      bountyPerUser: surveyData?.bountyPerUser,
+      rewardPerUser: surveyData?.rewardPerUser,
     };
 
     try {
@@ -155,7 +155,7 @@ function Survey() {
               creator: surveyData?.creator || "Unknown", // Using optional chaining and fallback value
               responses: responses,
               taker: userAddress || "Unknown",
-              bountyEarned: surveyData?.bountyPerUser,
+              rewardEarned: surveyData?.rewardPerUser,
               firebaseID: key,
               timeStarted: Date.now(),
             },
@@ -204,20 +204,20 @@ function Survey() {
       {!isUserCreator && (
         <Start
           timeLimit={surveyData?.timeLimit || 5}
-          bountyPerUser={surveyData?.bountyPerUser || 0}
+          rewardPerUser={surveyData?.rewardPerUser || 0}
           onStart={startTimer}
           resetStartState={resetStartState}
         />
       )}
       <ToastContainer position="top-center" />
-      <div className="bg-gray-100 min-h-screen font-sans pt-8">
+      <div className="bg-[#4bc7e8] min-h-screen font-sans pt-8">
         <div className="flex flex-col items-center">
           {timeLeft !== null && (
             <div className="text-3xl font-bold  md:hidden mb-4">
               Time Left: {formatTime(timeLeft)}
             </div>
           )}
-          <h1 className="font-bold text-3xl text-center mb-4 text-blue-700">
+          <h1 className="font-bold text-3xl text-center mb-4 text-[#1c1b53]">
             {surveyData.title}
           </h1>
           {timeLeft !== null && (
@@ -247,7 +247,7 @@ function Survey() {
                 key={questionIndex}
                 className="border-2 mb-10 p-6 bg-white rounded shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2"
               >
-                <h3 className="font-bold text-xl mb-6 text-center text-blue-700">
+                <h3 className="font-bold text-xl mb-6 text-center text-[#1c1b53]">
                   {formatQuestion(question.question)}
                 </h3>
                 {question.answers.map((answer, answerIndex) => (
@@ -271,7 +271,7 @@ function Survey() {
             ))}
           <button
             type="submit"
-            className="btn rounded-xl py-2 px-4 bg-blue-500 text-white flex align-center justify-center text-center mx-auto my-1 mb-3 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 focus:outline-none"
+            className="btn rounded-xl py-2 px-4 bg-[#6166ae] hover:bg-[#1c1b53] text-white flex align-center justify-center text-center mx-auto my-1 mb-3 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 focus:outline-none"
           >
             Submit
           </button>

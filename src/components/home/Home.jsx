@@ -66,7 +66,7 @@ function Home() {
           </div>
         </div>
       </section>
-      <section className="recent-surveys">
+      <section className="recent-surveys bg-gray-300">
         <h2 className="font-bold text-xl mb-5">Recent Surveys</h2>
         <div className="survey-list grid grid-cols-2 md:grid-cols-4 gap-4 mx-4">
           {recentSurveys.map((survey) => {
@@ -86,8 +86,8 @@ function Home() {
                   {shortenedCreator}
                 </p>
                 <p className="mb-2 flex-grow font-bold">
-                  Bounty per User:{" "}
-                  <span className="font-normal">$ {survey.bountyPerUser}</span>
+                  Reward per User:{" "}
+                  <span className="font-normal">$ {survey.rewardPerUser}</span>
                 </p>
                 <p className="mb-2 flex-grow">
                   <span className="font-semibold italic">Time Limit: </span>
@@ -104,7 +104,7 @@ function Home() {
           })}
         </div>
       </section>
-      <section className="how-it-works">
+      <section className="how-it-works bg-gray-300 min-w-full">
         <h2>How It Works</h2>
         <p>
           // Add your text here about how the platform works. You can use

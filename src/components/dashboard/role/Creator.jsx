@@ -73,9 +73,9 @@ function Creator({ connectedAddress }) {
             >
               <h3 className="font-bold mb-2">Title: {surveyData.title}</h3>
               <p className="mb-2 flex-grow font-bold">
-                Bounty per User:{" "}
+                Reward per User:{" "}
                 <span className="font-normal">
-                  $ {surveyData.bountyPerUser}
+                  $ {surveyData.rewardPerUser}
                 </span>
               </p>
 
