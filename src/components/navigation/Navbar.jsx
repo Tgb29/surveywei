@@ -98,11 +98,11 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
           <img
             src={Logo}
             alt="SurveyWei Logo"
-            className="w-1/3 md:w-1/4 max-w-full max-h-20 md:max-h-24"
+            className="w-1/3 md:w-1/4 max-w-full max-h-20 md:max-h-24 xl:max-h-24"
           />
           <div
             id="logo-container"
-            className="ml-[-20px] md:ml-[-26px] text-2xl md:text-3xl font-bold text-[#1c1b53]"
+            className="ml-[-16px] md:ml-[-24px] xl:ml-[-28px] text-2xl md:text-3xl font-bold text-[#1c1b53]"
           >
             Survey<span className="text-[#4bc7e8]">Wei</span>
           </div>
