@@ -48,13 +48,16 @@ function Home() {
     <div className="homepage">
       <section className="hero">
         <div className="hero-content">
-          <h1 className="font-bold text-2xl text-white">
+          <h1 className="font-bold text-2xl text-white mb-4">
             Welcome to <span className="text-[#1c1b53]">Survey</span>
             <span className="text-[#4bc7e8]">Wei</span>
           </h1>
-          <p className="text-white">
+          <p className="text-white font-semibold mb-4">
             Create and participate in secure, decentralized surveys on the
             blockchain.
+          </p>
+          <p className="text-white">
+            Find and complete surveys to earn rewards!
           </p>
           <div className="hero-buttons">
             <Link to="/find" className="btn btn-primary">
