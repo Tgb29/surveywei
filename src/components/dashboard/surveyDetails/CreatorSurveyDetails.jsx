@@ -54,9 +54,9 @@ function CreatorSurveyDetails({ connectedAddress }) {
 
     return (
       <>
-        <th className="px-4 py-2 font-semibold">Responder</th>
+        <th className="border-2 border-gray-500 p-2">Responder</th>
         {Array.from({ length: maxQuestions }, (_, index) => (
-          <th key={index} className="px-4 py-2 font-semibold">
+          <th key={index} className="border-2 border-gray-500 p-2">
             Question {index + 1}
           </th>
         ))}
@@ -66,10 +66,12 @@ function CreatorSurveyDetails({ connectedAddress }) {
 
   const renderResponses = () => {
     return responses.map((response, index) => (
-      <tr className="bg-gray-100" key={index}>
-        <td className="px-4 py-2 border">{shortenedAddress(response.taker)}</td>
+      <tr className="" key={index}>
+        <td className="border-2 border-gray-500 p-2">
+          {shortenedAddress(response.taker)}
+        </td>
         {response.responses.map((r, idx) => (
-          <td key={idx} className="px-4 py-2 border">
+          <td key={idx} className="border-2 border-gray-500 p-2">
             {r}
           </td>
         ))}
@@ -110,9 +112,9 @@ function CreatorSurveyDetails({ connectedAddress }) {
                 </div>
               </div>
               <div id="responses-container" className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-11/12 border-collapse text-center bg-white align-center justify-center mx-auto">
                   <thead>
-                    <tr className="bg-gray-200">{renderTableHeaders()}</tr>
+                    <tr className="">{renderTableHeaders()}</tr>
                   </thead>
                   <tbody>{renderResponses()}</tbody>
                 </table>

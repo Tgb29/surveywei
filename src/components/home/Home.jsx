@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
+import Logo from "../../assets/LogoTransparent.png";
 
 function Home() {
   const [recentSurveys, setRecentSurveys] = useState([]);
@@ -70,7 +71,9 @@ function Home() {
         </div>
       </section>
       <section className="recent-surveys bg-gray-300">
-        <h2 className="font-bold text-xl mb-5">Recent Surveys</h2>
+        <h2 className="font-bold text-4xl mb-10 text-[#1c1b53]">
+          Recent Surveys
+        </h2>
         <div className="survey-list grid grid-cols-2 md:grid-cols-4 gap-4 mx-4">
           {recentSurveys.map((survey) => {
             const shortenedCreator = `${survey.creator.slice(
@@ -107,15 +110,104 @@ function Home() {
           })}
         </div>
       </section>
-      <section className="how-it-works bg-gray-300 min-w-full">
-        <h2>How It Works</h2>
-        <p>
-          // Add your text here about how the platform works. You can use
-          multiple paragraphs or list items if needed.
-        </p>
+      <section className="how-it-works bg-gray-300 min-w-full py-12 text-[#1c1b53]">
+        <h1 className="text-center font-bold text-4xl mb-10">How it works:</h1>
+        <div className="container mx-auto px-4">
+          <div className="section-container bg-white border rounded-lg shadow-md p-8">
+            <div className="build-survey mb-8 md:flex mx-auto align-center justify-center">
+              <div className="flex-col md:mr-20">
+                <h2 className="font-bold text-2xl mb-4">Build & Sponsor</h2>
+                <ul className="font-semibold text-lg list-disc list-inside mb-4">
+                  <li>Create your own 5-question survey.</li>
+                  <li>Sponsor it with a smart contract.</li>
+                  <li>
+                    Monitor your surveys and responses in
+                    <br className="hidden md:inline" />{" "}
+                    <span className="md:ml-8">
+                      real-time through the user dashboard.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="text-center md:text-right my-auto md:mt-24 md:ml-20 mb-8 md:mb-0">
+                <Link to="/build" className="btn btn-secondary">
+                  Build Surveys
+                </Link>
+              </div>
+            </div>
+            <hr className="mb-8" />
+            <div className="how-it-works-user mb-8 md:flex mx-auto align-center justify-center md:ml-[20rem]">
+              <div className="text-center md:text-left my-auto md:mt-24 md:mr-20 mb-8 md:mb-0">
+                <Link to="/find" className="btn btn-primary">
+                  Find Surveys
+                </Link>
+              </div>
+              <div className="flex-col md:ml-20">
+                <h2 className="font-bold text-2xl mb-4 mt-5">
+                  Take surveys & Get paid!
+                </h2>
+                <ul className="font-semibold text-lg list-disc list-inside mb-4">
+                  <li>
+                    Connect your Metamask wallet to the SurveyWei platform.
+                  </li>
+                  <li>
+                    Find and complete surveys within the prompted time duration.
+                  </li>
+                  <li>
+                    Get instantly rewarded in cryptocurrency upon completion.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-      <footer>
-        <p>&copy; 2023 SurveyWei. All rights reserved.</p>
+
+      <footer className="bg-[#1c1b53] text-white">
+        <div className="container mx-auto flex flex-wrap items-center justify-between">
+          <div className="flex items-center">
+            <img
+              src={Logo}
+              alt="SurveyWei Logo"
+              className="w-14 md:w-16 lg:w-20 xl:w-24 max-w-full max-h-20 md:max-h-20 lg:max-h-24 xl:max-h-28"
+            />
+            <div
+              id="logo-container"
+              className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#6166ae] text-white ml-[-6px] md:ml-[-14px]"
+            >
+              Survey<span className="text-[#4bc7e8]">Wei</span>
+            </div>
+          </div>
+          <div className="social-icons text-2xl mx-4 md:mx-8">
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mr-4"
+            >
+              <i className="fab fa-facebook-square text-white"></i>
+            </a>
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mr-4"
+            >
+              <i className="fab fa-twitter-square text-white"></i>
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fab fa-instagram text-white"></i>
+            </a>
+          </div>
+          <p className="text-center md:text-right flex-grow md:flex-grow-0">
+            &copy; 2023 SurveyWei. All rights reserved.
+          </p>
+        </div>
       </footer>
     </div>
   );

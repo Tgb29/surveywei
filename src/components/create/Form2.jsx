@@ -220,7 +220,7 @@ function Form2() {
       key={question.id}
       ref={questionRefs[i]}
       id={`question${i + 1}-block`}
-      className="flex align-center justify-center mx-auto text-center border-2 mb-10 p-4 bg-white rounded shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2"
+      className="flex align-center justify-center mx-auto text-center border-2 mb-10 p-4 bg-white rounded-xl shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2"
     >
       <div>
         <label className="mr-2">{`Question ${i + 1}:`}</label>
@@ -280,7 +280,7 @@ function Form2() {
             </h1>
           </div>
           <div id="form-block" className="flex-col mx-auto">
-            <div className="flex-col align-center justify-center mx-auto text-center border-2 mb-10 p-4 bg-white rounded shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
+            <div className="flex-col align-center justify-center mx-auto text-center border-2 mb-10 p-4 bg-white rounded-xl shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
               <div
                 id="title-container"
                 className="flex items-center justify-center mx-auto text-center mb-2"
