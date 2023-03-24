@@ -204,7 +204,7 @@ function Home() {
               <i className="fab fa-instagram text-white"></i>
             </a>
           </div>
-          <p className="text-center md:text-right flex-grow md:flex-grow-0">
+          <p className="text-center md:text-right flex-grow md:flex-grow-0 mr-5">
             &copy; 2023 SurveyWei. All rights reserved.
           </p>
         </div>

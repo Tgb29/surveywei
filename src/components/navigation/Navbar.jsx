@@ -102,7 +102,7 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
           />
           <div
             id="logo-container"
-            className="ml-[-16px] md:ml-[-24px] xl:ml-[-28px] text-2xl md:text-3xl font-bold text-[#1c1b53]"
+            className="ml-[-16px] md:ml-[-24px] xl:ml-[-24px] text-2xl md:text-3xl font-bold text-[#1c1b53]"
           >
             Survey<span className="text-[#4bc7e8]">Wei</span>
           </div>
