@@ -27,7 +27,7 @@ function App() {
               <Route path="/find" element={<SearchSurveys />} />
               <Route
                 path="/surveyDetails/:key/:id"
-                element={<SurveyDetails />}
+                element={<SurveyDetails connectedAddress={connectedAddress} />}
               />
               <Route
                 path="/user/surveyDetails/:key/:id"
