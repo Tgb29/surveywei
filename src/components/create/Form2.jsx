@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserAddressContext from "../../UserAddressContext";
 import Web3 from "web3";
+import { useNavigate } from "react-router-dom";
 import Web3Modal from "web3modal";
 
 function Form2() {
@@ -21,7 +22,7 @@ function Form2() {
   const [firebaseID, setFirebaseId] = useState(null);
 
   const connectedAddress = useContext(UserAddressContext);
-
+  const navigate = useNavigate();
   const connectToMetaMask = async () => {
     const web3Modal = new Web3Modal();
     const provider = await web3Modal.connect();
@@ -119,6 +120,9 @@ function Form2() {
     } catch (error) {
       console.error("Error:", error);
     }
+    setTimeout(() => {
+      navigate("/user/:connectedAddress");
+    }, 2000);
   };
 
   const createSurveytoBlockchain = (
