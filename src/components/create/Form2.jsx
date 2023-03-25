@@ -111,6 +111,7 @@ function Form2() {
 
         showSuccessToast();
         console.log(uniqueKey);
+        console.log("teedy");
         createSurveytoBlockchain(
           uniqueKey,
           totalReward,
@@ -126,6 +127,8 @@ function Form2() {
     // }, 3000);
   };
 
+ 
+
   const createSurveytoBlockchain = async (
     firebaseID,
     reward,
@@ -140,6 +143,7 @@ function Form2() {
     const contract = new web3.eth.Contract(contractAbi, contractAddress);
     console.log("Connected to smart contract:", contract);
     console.log(contract, userAddress);
+
     createSurvey(
       firebaseID,
       totalReward,
@@ -161,12 +165,13 @@ function Form2() {
     try {
       const tx = await contractInstance.methods
         .createSurvey(firebaseID, reward, respondents, timeLength)
-        .send({ from: userAddress });
+        .send({ from: userAddress, value: reward });
       console.log("Transaction: ", tx);
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  
 
   const showSuccessToast = () => {
     toast.success(
