@@ -34,6 +34,8 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
         .beginSurvey(firebaseID)
         .send({ from: userAddress });
       console.log("Transaction: ", tx);
+
+      setActive(!active);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -52,7 +54,6 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
   };
   const continueToSurvey = (e) => {
     e.preventDefault();
-    setActive(!active);
     onStart();
     startSurveyBlockchain(key);
   };

@@ -46,8 +46,14 @@ function Survey() {
         .completeSurvey(firebaseID, hash)
         .send({ from: userAddress });
       console.log("Transaction: ", tx);
+      showSuccessToast();
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Form Submission Unsuccessful", {
+        position: "top-center",
+      });
     }
   };
 
@@ -152,6 +158,13 @@ function Survey() {
     return hash.toString(CryptoJS.enc.Hex);
   }
 
+  const showSuccessToast = () => {
+    toast.success("Survey submitted successfully! Thank You", {
+      position: "top-center",
+      autoClose: 1000,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // clearInterval(timer);
@@ -226,9 +239,6 @@ function Survey() {
     console.log("Responses:", responseData);
     console.log("Survey submitted, time stopped");
     // resetStartState();
-    setTimeout(() => {
-      navigate("/");
-    }, 3000);
   };
 
   const formatQuestion = (questionText) => {
