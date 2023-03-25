@@ -122,12 +122,10 @@ function Form2() {
     } catch (error) {
       console.error("Error:", error);
     }
-    // setTimeout(() => {
-    //   navigate("/user/:connectedAddress");
-    // }, 3000);
+    setTimeout(() => {
+      navigate("/user/:connectedAddress");
+    }, 3000);
   };
-
- 
 
   const createSurveytoBlockchain = async (
     firebaseID,
@@ -171,7 +169,6 @@ function Form2() {
       console.error("Error:", error);
     }
   };
-  
 
   const showSuccessToast = () => {
     toast.success(
