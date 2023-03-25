@@ -122,7 +122,7 @@ function Form2() {
     }
     setTimeout(() => {
       navigate("/user/:connectedAddress");
-    }, 2000);
+    }, 3000);
   };
 
   const createSurveytoBlockchain = (
@@ -135,10 +135,13 @@ function Form2() {
   };
 
   const showSuccessToast = () => {
-    toast.success("Survey submitted successfully!", {
-      position: "top-center",
-      autoClose: 1000,
-    });
+    toast.success(
+      "Survey submitted successfully! You will be redirect to your dashboard",
+      {
+        position: "top-center",
+        autoClose: 1000,
+      }
+    );
   };
 
   useEffect(() => {
