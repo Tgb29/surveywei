@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function SearchSurveys() {
   const [surveys, setSurveys] = useState({});
+  const [sortReverse, setSortReverse] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -49,10 +50,18 @@ function SearchSurveys() {
     }
   };
 
+  const toggleSort = () => {
+    setSortReverse(!sortReverse);
+  };
+
   const surveysArray = Object.entries(surveys);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedSurveys = surveysArray.slice(startIndex, endIndex);
+  const displayedSurveys = sortReverse
+    ? surveysArray
+        .slice(surveysArray.length - endIndex, surveysArray.length - startIndex)
+        .reverse()
+    : surveysArray.slice(startIndex, endIndex);
 
   return (
     <div className="bg-[#4bc7e8] min-h-screen font-sans pb-20">
@@ -61,6 +70,12 @@ function SearchSurveys() {
         <h1 className="font-bold text-2xl text-center mt-8 mb-4 text-[#1c1b53]">
           All Surveys{" "}
         </h1>
+        <div className="mt-8 mb-4 flex justify-end mr-12">
+          <button onClick={toggleSort} className="text-white font-bold">
+            Sort{" "}
+            <i className={`fas fa-sort-${sortReverse ? "up" : "down"}`}></i>
+          </button>
+        </div>
         <ul className="grid grid-cols-2 md:grid-cols-2 gap-4 mx-4">
           {displayedSurveys.map(([outerId, outerData]) =>
             Object.entries(outerData).map(([id, surveyData]) => (
