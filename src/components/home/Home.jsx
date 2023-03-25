@@ -37,7 +37,7 @@ function Home() {
           })
           .flat();
 
-        const lastFourSurveys = allSurveys.slice(-4);
+        const lastFourSurveys = allSurveys.slice(-6);
         setRecentSurveys(lastFourSurveys);
         console.log("Recent surveys:", lastFourSurveys);
       }
@@ -71,10 +71,10 @@ function Home() {
         </div>
       </section>
       <section className="recent-surveys bg-gray-300">
-        <h2 className="font-bold text-4xl mb-10 text-[#1c1b53]">
+        <h2 className="font-bold text-4xl mb-10 text-[#1c1b53] text-center">
           Recent Surveys
         </h2>
-        <div className="survey-list grid grid-cols-2 md:grid-cols-4 gap-4 mx-4">
+        <div className="survey-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-4">
           {recentSurveys.map((survey) => {
             const shortenedCreator = `${survey.creator.slice(
               0,
@@ -84,24 +84,23 @@ function Home() {
             return (
               <div
                 key={survey.id}
-                className="survey-item border p-4 rounded shadow-md flex flex-col"
+                className="bg-white border rounded-xl shadow-md p-4 flex flex-col"
               >
-                <h3 className="font-bold mb-2">{survey.title}</h3>
-                <p className="mb-3 flex-grow">
-                  <span className="font-semibold italic">Created by: </span>
-                  {shortenedCreator}
+                <h3 className="text-lg font-bold mb-2">{survey.title}</h3>
+                <p className="text-sm font-semibold">
+                  Created by: {shortenedCreator}
                 </p>
-                <p className="mb-2 flex-grow font-bold">
-                  Reward per User:{" "}
-                  <span className="font-normal">$ {survey.rewardPerUser}</span>
+                <p className="text-sm my-2">
+                  <span className="font-semibold">Reward per User: </span>${" "}
+                  {survey.rewardPerUser}
                 </p>
-                <p className="mb-2 flex-grow">
-                  <span className="font-semibold italic">Time Limit: </span>
+                <p className="text-sm">
+                  <span className="font-semibold">Time Limit: </span>
                   {survey.timeLength}
                 </p>
                 <Link
                   to={`/survey/${survey.outerId}/${survey.id}`}
-                  className="btn btn-sm btn-primary self-start"
+                  className="btn btn-sm btn-primary self-start mt-auto"
                 >
                   Take Survey
                 </Link>
@@ -110,10 +109,11 @@ function Home() {
           })}
         </div>
       </section>
+
       <section className="how-it-works bg-gray-300 min-w-full py-12 text-[#1c1b53]">
         <h1 className="text-center font-bold text-4xl mb-10">How it works:</h1>
         <div className="container mx-auto px-4">
-          <div className="section-container bg-white border rounded-lg shadow-md p-8">
+          <div className="section-container bg-white border rounded-xl shadow-md p-8">
             <div className="build-survey mb-8 md:flex mx-auto align-center justify-center">
               <div className="flex-col md:mr-20">
                 <h2 className="font-bold text-2xl mb-4">Build & Sponsor</h2>

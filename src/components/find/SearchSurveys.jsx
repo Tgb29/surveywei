@@ -6,7 +6,7 @@ function SearchSurveys() {
   const [surveys, setSurveys] = useState({});
   const [sortReverse, setSortReverse] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [itemsPerPage, setItemsPerPage] = useState(9);
 
   async function getAllSurveys() {
     try {
@@ -54,6 +54,15 @@ function SearchSurveys() {
     setSortReverse(!sortReverse);
   };
 
+  const handleItemsPerPageChange = (e) => {
+    setCurrentPage(1);
+    setItemsPerPage(
+      e.target.value === "all"
+        ? Object.keys(surveys).length
+        : parseInt(e.target.value)
+    );
+  };
+
   const surveysArray = Object.entries(surveys);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -64,46 +73,59 @@ function SearchSurveys() {
     : surveysArray.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-[#4bc7e8] min-h-screen font-sans pb-20">
-      <div className="flex align-center justify-center mx-auto"></div>
-      <div className="flex-col align-center justify-center mx-auto">
-        <h1 className="font-bold text-2xl text-center mt-8 mb-4 text-[#1c1b53]">
-          All Surveys{" "}
+    <div className="bg-[#4bc7e8] min-h-screen flex flex-col items-center justify-center">
+      <div className="my-4 w-11/12">
+        <h1 className="text-3xl font-bold text-center text-[#1c1b53] my-5">
+          Find Surveys on Survey Wei
         </h1>
-        <div className="mt-8 mb-4 flex justify-end mr-12">
+        <p className="my-4 text-lg text-center text-[#1c1b53] font-semibold w-11/12 mx-auto">
+          Surveywei's find surveys page is the perfect way to earn money on your
+          own terms, in a way that's quick, easy, and secure. Start browsing our
+          database today and see just how much you can earn!
+        </p>
+        <div className="flex justify-end my-8 space-x-4 mr-2">
+          <div className="text-white font-bold">
+            Show:
+            <select
+              onChange={handleItemsPerPageChange}
+              className="ml-2 bg-[#4bc7e8] border-2 border-white rounded"
+            >
+              <option value="9">9</option>
+              <option value="18">18</option>
+              <option value="all">All</option>
+            </select>
+          </div>
           <button onClick={toggleSort} className="text-white font-bold">
             Sort{" "}
             <i className={`fas fa-sort-${sortReverse ? "up" : "down"}`}></i>
           </button>
         </div>
-        <ul className="grid grid-cols-2 md:grid-cols-2 gap-4 mx-4">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {displayedSurveys.map(([outerId, outerData]) =>
             Object.entries(outerData).map(([id, surveyData]) => (
               <li
                 key={id}
-                className="survey-item border p-4 rounded shadow-md flex flex-col text-center"
+                className="bg-white border rounded-xl shadow-md p-4 flex flex-col"
               >
-                <h3 className="font-bold mb-2">Title: {surveyData.title}</h3>
-                <p className="mb-3 flex-grow">
-                  <span className="font-semibold italic">Created by: </span>
+                <h3 className="text-lg font-bold mb-2">{surveyData.title}</h3>
+                <p className="text-sm font-semibold">
+                  Created by:{" "}
                   {`${surveyData.creator.slice(
                     0,
                     4
                   )}...${surveyData.creator.slice(-5)}`}
                 </p>
-                <p className="mb-2 flex-grow font-bold">
-                  Reward per User:{" "}
-                  <span className="font-normal">
-                    $ {surveyData.rewardPerUser}
-                  </span>
+                <p className="text-sm my-2">
+                  <span className="font-semibold">Reward per User: </span>${" "}
+                  {surveyData.rewardPerUser}
                 </p>
-                <p className="mb-2 flex-grow">
-                  <span className="font-semibold italic">Time Limit: </span>
+                <p className="text-sm">
+                  <span className="font-semibold">Time Limit: </span>
                   {surveyData.timeLength}
                 </p>
                 <Link
                   to={`/survey/${outerId}/${id}`}
-                  className="btn btn-sm btn-primary self-start"
+                  className="btn btn-sm btn-primary self-start mt-auto"
                 >
                   Take Survey
                 </Link>
@@ -111,20 +133,25 @@ function SearchSurveys() {
             ))
           )}
         </ul>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex justify-center ">
           <button
             onClick={handleClickPrev}
-            className="bg-[#6166ae] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
+            className={`btn btn-sm btn-secondary mr-2 ${
+              currentPage === 1 ? "disabled" : ""
+            }`}
             disabled={currentPage === 1}
           >
             Prev
           </button>
-          <div className=" bg-gray-300 border-t border-b border-gray-300 px-4 py-2">
+          <span className="text-gray-600 text-lg my-auto font-semibold">
             Page {currentPage} of {totalPages}
-          </div>
+          </span>
           <button
             onClick={handleClickNext}
-            className="bg-[#6166ae] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-1"
+            className={`btn btn-sm btn-secondary ml-2 ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+            disabled={currentPage === totalPages}
           >
             Next
           </button>
