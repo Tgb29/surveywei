@@ -91,8 +91,9 @@ function CreatorSurveyDetails({ connectedAddress }) {
         >
           <div id="survey-details-heading" className="flex mb-8">
             <Link to={`/user/${connectedAddress}`}>
-              {" "}
-              <button className="text-blue-500 underline">Back</button>
+              <button className="text-[#1c1b53] p-1 rounded focus:outline-none">
+                <i className="fas fa-arrow-left text-xl"></i>
+              </button>
             </Link>
             <h1 className="text-xl font-bold mx-auto">Survey Details</h1>
           </div>

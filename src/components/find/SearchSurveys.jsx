@@ -117,7 +117,7 @@ function SearchSurveys() {
                 </p>
                 <p className="text-sm my-2">
                   <span className="font-semibold">Reward per User: </span>${" "}
-                  {surveyData.rewardPerUser}
+                  {surveyData.rewardPerUser.toFixed(2)}
                 </p>
                 <p className="text-sm">
                   <span className="font-semibold">Time Limit: </span>
