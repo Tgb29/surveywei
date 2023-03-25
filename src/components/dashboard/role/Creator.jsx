@@ -73,9 +73,12 @@ function Creator({ connectedAddress }) {
             >
               <h3 className="font-bold mb-2">Title: {surveyData.title}</h3>
               <p className="mb-2 flex-grow font-bold">
-                Reward per User:{" "}
+                Reward :{" "}
                 <span className="font-normal">
-                  $ {surveyData.rewardPerUser}
+                  {surveyData.rewardPerUser
+                    ? surveyData.rewardPerUser.toFixed(2)
+                    : 0}{" "}
+                  wei
                 </span>
               </p>
 

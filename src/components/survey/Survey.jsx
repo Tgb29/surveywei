@@ -10,11 +10,13 @@ import Web3Modal from "web3modal";
 import { v4 as uuidv4 } from "uuid";
 import contractAbi from "../../abi/surveywei.abi.json";
 import CryptoJS from "crypto-js";
+import Spinner from "../../assets/spinner.gif";
 
 function Survey() {
   const { key, id } = useParams();
   const [surveyData, setSurveyData] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [waiting, setWaiting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -42,10 +44,12 @@ function Survey() {
     hash
   ) => {
     try {
+      setWaiting(true);
       const tx = await contractInstance.methods
         .completeSurvey(firebaseID, hash)
         .send({ from: userAddress });
       console.log("Transaction: ", tx);
+      setWaiting(false);
       showSuccessToast();
       setTimeout(() => {
         navigate("/");
@@ -331,7 +335,15 @@ function Survey() {
             type="submit"
             className="btn rounded-xl py-2 px-4 bg-[#6166ae] hover:bg-[#1c1b53] text-white flex align-center justify-center text-center mx-auto my-1 mb-3 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 focus:outline-none"
           >
-            Submit
+            {waiting ? (
+              <img
+                src={Spinner}
+                alt="Loading..."
+                className="w-24 h-24 mx-auto"
+              />
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </div>

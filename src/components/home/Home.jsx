@@ -90,13 +90,19 @@ function Home() {
                 <p className="text-sm font-semibold">
                   Created by: {shortenedCreator}
                 </p>
-                <p className="text-sm my-2">
-                  <span className="font-semibold">Reward per User: </span>${" "}
-                  {survey.rewardPerUser.toFixed(2)}
+                <p className="text-sm my-2 font-semibold">
+                  Reward:
+                  <span className="font-normal">
+                    {" "}
+                    {survey.rewardPerUser
+                      ? survey.rewardPerUser.toFixed(2)
+                      : 0}{" "}
+                    wei
+                  </span>{" "}
                 </p>
                 <p className="text-sm">
                   <span className="font-semibold">Time Limit: </span>
-                  {survey.timeLength}
+                  {survey.timeLength} minutes
                 </p>
                 <Link
                   to={`/survey/${survey.outerId}/${survey.id}`}
@@ -108,6 +114,12 @@ function Home() {
             );
           })}
         </div>
+
+        <Link to="/find">
+          <p className="text-right underline text-[#1c1b53] cursor-pointer text-lg mr-8 font-bold mt-4">
+            See All
+          </p>
+        </Link>
       </section>
 
       <section className="how-it-works bg-gray-300 min-w-full py-12 text-[#1c1b53]">

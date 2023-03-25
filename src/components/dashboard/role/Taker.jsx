@@ -77,7 +77,10 @@ function Taker({ connectedAddress }) {
                   )}...${surveyData?.creator.slice(-5)}`}
                 </td>
                 <td className="border-2 border-gray-500 p-2">
-                  {surveyData?.rewardEarned || 0}
+                  {surveyData?.rewardEarned
+                    ? surveyData?.rewardEarned.toFixed(2)
+                    : 0}{" "}
+                  wei
                 </td>
                 <td className="border-2 border-gray-500 p-4">
                   <Link

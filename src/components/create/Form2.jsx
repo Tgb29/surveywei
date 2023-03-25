@@ -9,6 +9,7 @@ import Web3 from "web3";
 import { useNavigate } from "react-router-dom";
 import Web3Modal from "web3modal";
 import contractAbi from "../../abi/surveywei.abi.json";
+import Spinner from "../../assets/spinner.gif";
 
 function Form2() {
   const [title, setTitle] = useState("");
@@ -21,6 +22,7 @@ function Form2() {
   const [questions, setQuestions] = useState([]);
   const [questionRefs, setQuestionRefs] = useState([React.createRef()]);
   const [firebaseID, setFirebaseId] = useState(null);
+  const [waiting, setWaiting] = useState(false);
 
   const connectedAddress = useContext(UserAddressContext);
   const navigate = useNavigate();
@@ -157,11 +159,13 @@ function Form2() {
     userAddress
   ) => {
     try {
+      setWaiting(true);
       const tx = await contractInstance.methods
         .createSurvey(firebaseID, reward, respondents, timeLength)
         .send({ from: userAddress, value: reward });
       console.log("Transaction: ", tx);
       showSuccessToast();
+      setWaiting(false);
       setTimeout(() => {
         navigate("/user/:connectedAddress");
       }, 3000);
@@ -421,11 +425,11 @@ function Form2() {
                       setTotalReward(e.target.value);
                     }}
                   />
-                  <h1 className="font-bold ">USD</h1>
+                  <h1 className="font-bold ">Wei</h1>
                 </div>
                 <p className="flex items-center justify-center mx-auto text-center mb-5 ">
-                  Reward per user :{"   "}
-                  <span className="font-bold mx-2">{rewardPerUser}</span> USD
+                  Reward :{"   "}
+                  <span className="font-bold mx-2">{rewardPerUser}</span> Wei
                 </p>
               </div>
             </div>
@@ -437,7 +441,11 @@ function Form2() {
           onClick={onClick}
           className="btn rounded-xl py-2 px-4 bg-[#6166ae] text-white flex align-center justify-center text-center mx-auto my-1 mb-3"
         >
-          Create Survey
+          {waiting ? (
+            <img src={Spinner} alt="Loading..." className="w-14 h-14 mx-auto" />
+          ) : (
+            "Create Survey"
+          )}
         </button>
       </div>
       <ToastContainer />

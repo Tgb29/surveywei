@@ -116,14 +116,15 @@ function SearchSurveys() {
                   )}...${surveyData.creator.slice(-5)}`}
                 </p>
                 <p className="text-sm my-2">
-                  <span className="font-semibold">Reward per User: </span>${" "}
+                  <span className="font-semibold">Reward: </span>
                   {surveyData.rewardPerUser
                     ? surveyData.rewardPerUser.toFixed(2)
-                    : 0}
+                    : 0}{" "}
+                  wei
                 </p>
                 <p className="text-sm">
                   <span className="font-semibold">Time Limit: </span>
-                  {surveyData.timeLength}
+                  {surveyData.timeLength} minutes
                 </p>
                 <Link
                   to={`/survey/${outerId}/${id}`}

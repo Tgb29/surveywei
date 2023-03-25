@@ -68,7 +68,7 @@ function SurveyDetails({ connectedAddress }) {
             </div>
             <div className="flex ">
               <h1 className="font-semibold mr-24">Reward:</h1>
-              <h1 className="ml-9">$ 0.20</h1>
+              <h1 className="ml-9">0.20 wei </h1>
             </div>
             <div className="flex ">
               <h1 className="font-semibold mr-28 mt-2">Claimed:</h1>

@@ -111,12 +111,12 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
           id="menu-container"
           className="hidden md:flex items-center justify-end w-2/3 pr-5 space-x-10"
         >
-          <Link to="/find" className="flex m-auto">
+          <Link to="/find" className="flex ">
             <button className="nav-link btn btn-link font-semibold text-[#1c1b53] hover:text-[#4bc7e8]">
               Find Survey
             </button>
           </Link>
-          <Link to="/build" className="flex m-auto">
+          <Link to="/build" className="flex ">
             <button className="nav-link btn btn-link font-semibold text-[#1c1b53] hover:text-[#4bc7e8]">
               Build Survey
             </button>
