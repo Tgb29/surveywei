@@ -1,6 +1,10 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import UserAddressContext from "../../UserAddressContext";
+import Web3 from "web3";
+import Web3Modal from "web3modal";
+import contractAbi from "../../abi/surveywei.abi.json";
 
 function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
   const { key, id } = useParams();
@@ -9,18 +13,48 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
     () => JSON.parse(localStorage.getItem("startActive")) ?? true
   );
 
-  const startSurvey = () => {
-    console.log("survey Started");
+  // const startSurvey = () => {
+  //   console.log("surveyStarted");
+  // };
+  const connectToMetaMask = async () => {
+    const web3Modal = new Web3Modal();
+    const provider = await web3Modal.connect();
+    const web3 = new Web3(provider);
+    const accounts = await web3.eth.getAccounts();
+    return accounts[0];
   };
+
   useEffect(() => {
     localStorage.setItem("startActive", JSON.stringify(active));
   }, [active]);
 
+  const beginSurvey = async (firebaseID, contractInstance, userAddress) => {
+    try {
+      const tx = await contractInstance.methods
+        .beginSurvey(firebaseID)
+        .send({ from: userAddress });
+      console.log("Transaction: ", tx);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const startSurveyBlockchain = async (firebaseID) => {
+    console.log(firebaseID);
+
+    const contractAddress = "0x12feB242DF388c4397EC8B1650F4A09C5C1f6542";
+    const userAddress = await connectToMetaMask();
+    const web3 = new Web3(Web3.givenProvider);
+    const contract = new web3.eth.Contract(contractAbi, contractAddress);
+    console.log("Connected to smart contract:", contract);
+    console.log(contract, userAddress);
+    beginSurvey(firebaseID, contract, userAddress);
+  };
   const continueToSurvey = (e) => {
     e.preventDefault();
     setActive(!active);
     onStart();
-    startSurvey();
+    startSurveyBlockchain(key);
   };
 
   useEffect(() => {

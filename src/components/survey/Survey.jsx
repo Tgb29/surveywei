@@ -8,6 +8,8 @@ import UserAddressContext from "../../UserAddressContext";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 import { v4 as uuidv4 } from "uuid";
+import contractAbi from "../../abi/surveywei.abi.json";
+import CryptoJS from "crypto-js";
 
 function Survey() {
   const { key, id } = useParams();
@@ -16,14 +18,50 @@ function Survey() {
 
   const navigate = useNavigate();
 
-  const [timeLeft, setTimeLeft] = useState(null);
-  const [timer, setTimer] = useState(null);
+  const [timeStarted, setTimeStarted] = useState(null);
+  // const [timeLeft, setTimeLeft] = useState(null);
+  // const [timer, setTimer] = useState(null);
 
   const [isUserCreator, setIsUserCreator] = useState(false);
 
   const connectedAddress = useContext(UserAddressContext);
   console.log(typeof connectedAddress, typeof surveyData?.creator);
   console.log(connectedAddress, surveyData?.creator);
+
+  const connectToMetaMask = async () => {
+    const web3Modal = new Web3Modal();
+    const provider = await web3Modal.connect();
+    const web3 = new Web3(provider);
+    const accounts = await web3.eth.getAccounts();
+    return accounts[0];
+  };
+  const completeSurvey = async (
+    firebaseID,
+    contractInstance,
+    userAddress,
+    hash
+  ) => {
+    try {
+      const tx = await contractInstance.methods
+        .completeSurvey(firebaseID, hash)
+        .send({ from: userAddress });
+      console.log("Transaction: ", tx);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const completeSurveyBlockchain = async (firebaseID, hash) => {
+    console.log(firebaseID);
+
+    const contractAddress = "0x12feB242DF388c4397EC8B1650F4A09C5C1f6542";
+    const userAddress = await connectToMetaMask();
+    const web3 = new Web3(Web3.givenProvider);
+    const contract = new web3.eth.Contract(contractAbi, contractAddress);
+    console.log("Connected to smart contract:", contract);
+    console.log(contract, userAddress);
+    completeSurvey(firebaseID, contract, userAddress, hash);
+  };
 
   useEffect(() => {
     // Check if the connected address is the same as the creator in the survey data
@@ -38,46 +76,46 @@ function Survey() {
     }
   }, [surveyData, connectedAddress]);
 
-  useEffect(() => {
-    if (timeLeft === 0) {
-      localStorage.removeItem("startActive");
-      localStorage.removeItem("timeLeft");
+  // useEffect(() => {
+  //   if (timeLeft === 0) {
+  //     localStorage.removeItem("startActive");
+  //     localStorage.removeItem("timeLeft");
 
-      toast.error("Time expired");
-      resetStartState(); // Call resetStartState here
-      setTimeout(() => {
-        navigate("/find");
-      }, 2000);
-    }
-  }, [timeLeft]);
+  //     toast.error("Time expired");
+  //     resetStartState(); // Call resetStartState here
+  //     setTimeout(() => {
+  //       navigate("/find");
+  //     }, 2000);
+  //   }
+  // }, [timeLeft]);
 
-  const startTimer = () => {
-    const currentTimeLeft = JSON.parse(localStorage.getItem("timeLeft"));
-    if (currentTimeLeft) {
-      setTimeLeft(currentTimeLeft);
-    } else {
-      setTimeLeft(surveyData?.timeLength * 60);
-    }
-  };
+  // const startTimer = () => {
+  //   const currentTimeLeft = JSON.parse(localStorage.getItem("timeLeft"));
+  //   if (currentTimeLeft) {
+  //     setTimeLeft(currentTimeLeft);
+  //   } else {
+  //     setTimeLeft(surveyData?.timeLength * 60);
+  //   }
+  // };
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  };
+  // const formatTime = (seconds) => {
+  //   const minutes = Math.floor(seconds / 60);
+  //   const remainingSeconds = seconds % 60;
+  //   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  // };
 
-  useEffect(() => {
-    if (timeLeft !== null) {
-      const timerId = setInterval(() => {
-        setTimeLeft((prevTimeLeft) => {
-          localStorage.setItem("timeLeft", JSON.stringify(prevTimeLeft - 1));
-          return prevTimeLeft - 1;
-        });
-      }, 1000);
-      setTimer(timerId);
-      return () => clearInterval(timerId);
-    }
-  }, [timeLeft]);
+  // useEffect(() => {
+  //   if (timeLeft !== null) {
+  //     const timerId = setInterval(() => {
+  //       setTimeLeft((prevTimeLeft) => {
+  //         localStorage.setItem("timeLeft", JSON.stringify(prevTimeLeft - 1));
+  //         return prevTimeLeft - 1;
+  //       });
+  //     }, 1000);
+  //     setTimer(timerId);
+  //     return () => clearInterval(timerId);
+  //   }
+  // }, [timeLeft]);
 
   async function fetchSurveyData() {
     try {
@@ -100,17 +138,23 @@ function Survey() {
     fetchSurveyData();
   }, [id]);
 
-  const connectToMetaMask = async () => {
-    const web3Modal = new Web3Modal();
-    const provider = await web3Modal.connect();
-    const web3 = new Web3(provider);
-    const accounts = await web3.eth.getAccounts();
-    return accounts[0];
-  };
+  // const connectToMetaMask = async () => {
+  //   const web3Modal = new Web3Modal();
+  //   const provider = await web3Modal.connect();
+  //   const web3 = new Web3(provider);
+  //   const accounts = await web3.eth.getAccounts();
+  //   return accounts[0];
+  // };
+
+  function hashJSON(obj) {
+    const jsonString = JSON.stringify(obj);
+    const hash = CryptoJS.SHA256(jsonString);
+    return hash.toString(CryptoJS.enc.Hex);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    clearInterval(timer);
+    // clearInterval(timer);
     setFormSubmitted(true);
 
     let userAddress = connectedAddress;
@@ -158,7 +202,7 @@ function Survey() {
               taker: userAddress || "Unknown",
               rewardEarned: surveyData?.rewardPerUser,
               firebaseID: key,
-              timeStarted: Date.now(),
+              timeStarted: timeStarted,
               timeFinished: Date.now(),
               questions: surveyData?.questions,
             },
@@ -170,16 +214,18 @@ function Survey() {
         const responseBody = await response.json(); // Extract the JSON object from the response body
         const uniqueKey = responseBody.name; // Get the unique key from the JSON object
         console.log("Firebase unique key:", uniqueKey); // Use the unique key as needed
+        const hash = hashJSON(responseData);
+        completeSurveyBlockchain(key, hash);
       }
     } catch (error) {
       console.error("Error:", error);
     }
-    localStorage.removeItem("startActive");
-    localStorage.removeItem("timeLeft");
+    // localStorage.removeItem("startActive");
+    // localStorage.removeItem("timeLeft");
 
     console.log("Responses:", responseData);
     console.log("Survey submitted, time stopped");
-    resetStartState();
+    // resetStartState();
     setTimeout(() => {
       navigate("/");
     }, 3000);
@@ -207,23 +253,26 @@ function Survey() {
       {!isUserCreator && (
         <Start
           timeLimit={surveyData?.timeLimit || 5}
+          firebaseID={key}
           rewardPerUser={surveyData?.rewardPerUser || 0}
-          onStart={startTimer}
+          onStart={() => {
+            setTimeStarted(Date.now());
+          }}
           resetStartState={resetStartState}
         />
       )}
       <ToastContainer position="top-center" />
       <div className="bg-[#4bc7e8] min-h-screen font-sans pt-8">
         <div className="flex flex-col items-center">
-          {timeLeft !== null && (
+          {/* {timeLeft !== null && (
             <div className="text-3xl font-bold  md:hidden mb-4">
               Time Left: {formatTime(timeLeft)}
             </div>
-          )}
+          )} */}
           <h1 className="font-bold text-3xl text-center mb-4 text-[#1c1b53]">
             {surveyData.title}
           </h1>
-          {timeLeft !== null && (
+          {/* {timeLeft !== null && (
             <div
               className="hidden lg:block text-3xl font-bold fixed right-10 top-0 p-4 lg:top-1/2 lg:-translate-y-1/2"
               style={{ zIndex: 1000 }}
@@ -232,16 +281,13 @@ function Survey() {
                 <div>Time Left: {formatTime(timeLeft)}</div>
               )}
             </div>
-          )}
+          )} */}
         </div>
         <form
           className="flex flex-col items-center"
           onSubmit={handleSubmit}
           style={{
-            pointerEvents:
-              timeLeft === 0 || formSubmitted || isUserCreator
-                ? "none"
-                : "auto",
+            pointerEvents: formSubmitted || isUserCreator ? "none" : "auto",
           }}
         >
           {surveyData.questions &&
