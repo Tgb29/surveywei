@@ -287,7 +287,7 @@ function Survey() {
           className="flex flex-col items-center"
           onSubmit={handleSubmit}
           style={{
-            pointerEvents: formSubmitted || isUserCreator ? "none" : "auto",
+            pointerEvents: formSubmitted ? "none" : "auto",
           }}
         >
           {surveyData.questions &&
