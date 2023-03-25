@@ -250,17 +250,16 @@ function Survey() {
 
   return (
     <>
-      {!isUserCreator && (
-        <Start
-          timeLimit={surveyData?.timeLimit || 5}
-          firebaseID={key}
-          rewardPerUser={surveyData?.rewardPerUser || 0}
-          onStart={() => {
-            setTimeStarted(Date.now());
-          }}
-          resetStartState={resetStartState}
-        />
-      )}
+      <Start
+        timeLimit={surveyData?.timeLimit || 5}
+        firebaseID={key}
+        rewardPerUser={surveyData?.rewardPerUser || 0}
+        onStart={() => {
+          setTimeStarted(Date.now());
+        }}
+        resetStartState={resetStartState}
+      />
+
       <ToastContainer position="top-center" />
       <div className="bg-[#4bc7e8] min-h-screen font-sans pt-8">
         <div className="flex flex-col items-center">
