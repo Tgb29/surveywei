@@ -109,7 +109,6 @@ function Form2() {
         console.log(response);
         setFirebaseId(uniqueKey);
 
-        showSuccessToast();
         console.log(uniqueKey);
         console.log("teedy");
         createSurveytoBlockchain(
@@ -122,9 +121,6 @@ function Form2() {
     } catch (error) {
       console.error("Error:", error);
     }
-    setTimeout(() => {
-      navigate("/user/:connectedAddress");
-    }, 3000);
   };
 
   const createSurveytoBlockchain = async (
@@ -165,6 +161,10 @@ function Form2() {
         .createSurvey(firebaseID, reward, respondents, timeLength)
         .send({ from: userAddress, value: reward });
       console.log("Transaction: ", tx);
+      showSuccessToast();
+      setTimeout(() => {
+        navigate("/user/:connectedAddress");
+      }, 3000);
     } catch (error) {
       console.error("Error:", error);
     }
