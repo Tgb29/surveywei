@@ -9,6 +9,9 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
     () => JSON.parse(localStorage.getItem("startActive")) ?? true
   );
 
+  const startSurvey = () => {
+    console.log("survey Started");
+  };
   useEffect(() => {
     localStorage.setItem("startActive", JSON.stringify(active));
   }, [active]);
@@ -17,6 +20,7 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
     e.preventDefault();
     setActive(!active);
     onStart();
+    startSurvey();
   };
 
   useEffect(() => {
@@ -43,7 +47,9 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
               </button>
             </Link>
             <p className=" mt-5 mb-4">
-              You will have {timeLimit} minutes to complete this survey
+              You will have{" "}
+              <span className="font-bold">{timeLimit} minutes </span>to complete
+              this survey
             </p>
             <p className="mb-6">
               Upon completion you will receive ${rewardPerUser}

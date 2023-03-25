@@ -56,7 +56,7 @@ function Survey() {
     if (currentTimeLeft) {
       setTimeLeft(currentTimeLeft);
     } else {
-      setTimeLeft(30 * 60);
+      setTimeLeft(surveyData?.timeLength * 60);
     }
   };
 
@@ -142,6 +142,7 @@ function Survey() {
       taker: userAddress || "Unknown",
       firebaseID: key,
       rewardPerUser: surveyData?.rewardPerUser,
+      questions: "",
     };
 
     try {
@@ -158,6 +159,8 @@ function Survey() {
               rewardEarned: surveyData?.rewardPerUser,
               firebaseID: key,
               timeStarted: Date.now(),
+              timeFinished: Date.now(),
+              questions: surveyData?.questions,
             },
           }),
           headers: { "Content-Type": "application/json" },

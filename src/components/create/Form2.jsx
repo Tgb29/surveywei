@@ -92,6 +92,8 @@ function Form2() {
               questions: updatedQuestions,
               rewardPerUser: rewardPerUser,
               timeLength: timeLength,
+              type: respondentsOption,
+              numberOfQuestions: updatedQuestions.length,
             },
           }),
           headers: { "Content-Type": "application/json" },
@@ -172,13 +174,13 @@ function Form2() {
       toast.error("Please enter a survey title.", { position: "top-center" });
       return false;
     }
-    if (!numberOfRespondents) {
+    if ((respondentsOption === "fixed") & !numberOfRespondents) {
       toast.error("Please enter amount of respondents intended", {
         position: "top-center",
       });
       return false;
     }
-    if (!totalReward) {
+    if ((respondentsOption === "fixed") & !totalReward) {
       toast.error("Please enter amount of reward ", { position: "top-center" });
       return false;
     }

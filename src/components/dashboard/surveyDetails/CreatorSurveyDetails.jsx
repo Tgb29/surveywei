@@ -48,16 +48,18 @@ function CreatorSurveyDetails({ connectedAddress }) {
   }, []);
 
   const renderTableHeaders = () => {
-    const maxQuestions = Math.max(
-      ...responses.map((response) => response.responses.length)
-    );
+    if (responses.length === 0) {
+      return null;
+    }
+
+    const questions = responses[0].questions;
 
     return (
       <>
         <th className="border-2 border-gray-500 p-2">Responder</th>
-        {Array.from({ length: maxQuestions }, (_, index) => (
+        {questions.map((questionObj, index) => (
           <th key={index} className="border-2 border-gray-500 p-2">
-            Question {index + 1}
+            {questionObj.question}
           </th>
         ))}
       </>
