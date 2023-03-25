@@ -8,6 +8,7 @@ import UserAddressContext from "../../UserAddressContext";
 import Web3 from "web3";
 import { useNavigate } from "react-router-dom";
 import Web3Modal from "web3modal";
+import contractAbi from "../../abi/surveywei.abi.json";
 
 function Form2() {
   const [title, setTitle] = useState("");
@@ -120,18 +121,51 @@ function Form2() {
     } catch (error) {
       console.error("Error:", error);
     }
-    setTimeout(() => {
-      navigate("/user/:connectedAddress");
-    }, 3000);
+    // setTimeout(() => {
+    //   navigate("/user/:connectedAddress");
+    // }, 3000);
   };
 
-  const createSurveytoBlockchain = (
+  const createSurveytoBlockchain = async (
     firebaseID,
     reward,
     respondents,
     timeLength
   ) => {
     console.log(firebaseID, reward, respondents, timeLength);
+
+    const contractAddress = "0x12feB242DF388c4397EC8B1650F4A09C5C1f6542";
+    const userAddress = await connectToMetaMask();
+    const web3 = new Web3(Web3.givenProvider);
+    const contract = new web3.eth.Contract(contractAbi, contractAddress);
+    console.log("Connected to smart contract:", contract);
+    console.log(contract, userAddress);
+    createSurvey(
+      firebaseID,
+      totalReward,
+      numberOfRespondents,
+      timeLength,
+      contract,
+      userAddress
+    );
+  };
+
+  const createSurvey = async (
+    firebaseID,
+    reward,
+    respondents,
+    timeLength,
+    contractInstance,
+    userAddress
+  ) => {
+    try {
+      const tx = await contractInstance.methods
+        .createSurvey(firebaseID, reward, respondents, timeLength)
+        .send({ from: userAddress });
+      console.log("Transaction: ", tx);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const showSuccessToast = () => {
@@ -401,7 +435,7 @@ function Form2() {
           onClick={onClick}
           className="btn rounded-xl py-2 px-4 bg-[#6166ae] text-white flex align-center justify-center text-center mx-auto my-1 mb-3"
         >
-          Submit Survey
+          Create Survey
         </button>
       </div>
       <ToastContainer />
