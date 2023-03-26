@@ -68,11 +68,11 @@ function Home() {
             <span className="text-[#4bc7e8]">Wei</span>
           </h1>
           <p className="text-white font-semibold mb-4">
-            Create and participate in secure, decentralized surveys on the
+            Create and participate in secure, decentralized surveys on the Optimism
             blockchain.
           </p>
           <p className="text-white">
-          Complete surveys to earn rewards and build your Credit Score!
+          Complete surveys to earn rewards and build your credit score!
           </p>
           <div className="hero-buttons">
             <Link to="/find" className="btn btn-primary">
