@@ -192,12 +192,20 @@ function Home() {
                 <h2 className="font-bold text-2xl mb-4 mt-5">
                   Survey Credit Score
                 </h2>
-                <p className="font-semibold text-lg mb-8">
-                  Receive a positive attestation anytime you complete a survey.
-                  If you cheat or provide bad data, you'll receive a negative
-                  attestation. Pass the Credit Check and get your rewards paid
-                  instantly.
-                </p>
+                <ul className="font-semibold text-lg list-disc list-inside mb-8">
+                  <li>
+                    Receive a positive attestation anytime you complete a
+                    survey.
+                  </li>
+                  <li>
+                    If you cheat or provide bad data, you'll receive a negative
+                    attestation.
+                  </li>
+                  <li>
+                    Pass the Credit Check and get your rewards paid instantly!
+                  </li>
+                </ul>
+
                 <Link to="/find" className="btn btn-secondary mt-5">
                   Get Started !
                 </Link>
@@ -222,31 +230,7 @@ function Home() {
               Survey<span className="text-[#4bc7e8]">Wei</span>
             </div>
           </div>
-          <div className="social-icons text-2xl mx-4 md:mx-8">
-            <a
-              href="https://www.facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mr-4"
-            >
-              <i className="fab fa-facebook-square text-white"></i>
-            </a>
-            <a
-              href="https://www.twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mr-4"
-            >
-              <i className="fab fa-twitter-square text-white"></i>
-            </a>
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i className="fab fa-instagram text-white"></i>
-            </a>
-          </div>
+
           <p className="text-center md:text-right flex-grow md:flex-grow-0 mr-5">
             &copy; 2023 SurveyWei. All rights reserved.
           </p>
