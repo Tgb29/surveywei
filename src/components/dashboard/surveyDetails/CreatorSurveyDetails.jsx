@@ -16,7 +16,6 @@ function CreatorSurveyDetails({ connectedAddress }) {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         const surveysRespondedTo = [];
 
         for (const key1 in data) {

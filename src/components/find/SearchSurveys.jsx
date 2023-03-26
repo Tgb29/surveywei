@@ -43,7 +43,6 @@ function SearchSurveys() {
   const fetchData = async () => {
     const surveys = await getAllSurveys();
     setSurveys(surveys);
-    console.log(surveys);
   };
 
   useEffect(() => {

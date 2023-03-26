@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import SurveyWeiLogo from "../../assets/SurveyWeiLogo.svg";
-import { useLocation } from "react-router-dom";
 import Logo from "../../assets/LogoTransparent.png";
-// import Web3 from "web3";
 
 function Navbar({ connectedAddress, setConnectedAddress }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const location = useLocation();
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -80,7 +75,6 @@ function Navbar({ connectedAddress, setConnectedAddress }) {
           method: "eth_requestAccounts",
         });
         setConnectedAddress(accounts[0]);
-        console.log("Connected address:", accounts[0]);
       } catch (error) {
         console.error("Error connecting to MetaMask:", error);
       }

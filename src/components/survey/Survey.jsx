@@ -21,8 +21,6 @@ function Survey() {
   const navigate = useNavigate();
 
   const [timeStarted, setTimeStarted] = useState(null);
-  // const [timeLeft, setTimeLeft] = useState(null);
-  // const [timer, setTimer] = useState(null);
 
   const handleWaitingChange = () => {
     console.log("Waiting state changed to false");
@@ -31,8 +29,6 @@ function Survey() {
   const [isUserCreator, setIsUserCreator] = useState(false);
 
   const connectedAddress = useContext(UserAddressContext);
-  console.log(typeof connectedAddress, typeof surveyData?.creator);
-  console.log(connectedAddress, surveyData?.creator);
 
   const connectToMetaMask = async () => {
     const web3Modal = new Web3Modal();
@@ -72,13 +68,11 @@ function Survey() {
     const userAddress = await connectToMetaMask();
     const web3 = new Web3(Web3.givenProvider);
     const contract = new web3.eth.Contract(contractAbi, contractAddress);
-    console.log("Connected to smart contract:", contract);
-    console.log(contract, userAddress);
+
     completeSurvey(firebaseID, contract, userAddress, hash);
   };
 
   useEffect(() => {
-    // Check if the connected address is the same as the creator in the survey data
     if (
       surveyData &&
       connectedAddress &&
@@ -89,47 +83,6 @@ function Survey() {
       setIsUserCreator(false);
     }
   }, [surveyData, connectedAddress]);
-
-  // useEffect(() => {
-  //   if (timeLeft === 0) {
-  //     localStorage.removeItem("startActive");
-  //     localStorage.removeItem("timeLeft");
-
-  //     toast.error("Time expired");
-  //     resetStartState(); // Call resetStartState here
-  //     setTimeout(() => {
-  //       navigate("/find");
-  //     }, 2000);
-  //   }
-  // }, [timeLeft]);
-
-  // const startTimer = () => {
-  //   const currentTimeLeft = JSON.parse(localStorage.getItem("timeLeft"));
-  //   if (currentTimeLeft) {
-  //     setTimeLeft(currentTimeLeft);
-  //   } else {
-  //     setTimeLeft(surveyData?.timeLength * 60);
-  //   }
-  // };
-
-  // const formatTime = (seconds) => {
-  //   const minutes = Math.floor(seconds / 60);
-  //   const remainingSeconds = seconds % 60;
-  //   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  // };
-
-  // useEffect(() => {
-  //   if (timeLeft !== null) {
-  //     const timerId = setInterval(() => {
-  //       setTimeLeft((prevTimeLeft) => {
-  //         localStorage.setItem("timeLeft", JSON.stringify(prevTimeLeft - 1));
-  //         return prevTimeLeft - 1;
-  //       });
-  //     }, 1000);
-  //     setTimer(timerId);
-  //     return () => clearInterval(timerId);
-  //   }
-  // }, [timeLeft]);
 
   async function fetchSurveyData() {
     try {
@@ -152,14 +105,6 @@ function Survey() {
     fetchSurveyData();
   }, [id]);
 
-  // const connectToMetaMask = async () => {
-  //   const web3Modal = new Web3Modal();
-  //   const provider = await web3Modal.connect();
-  //   const web3 = new Web3(provider);
-  //   const accounts = await web3.eth.getAccounts();
-  //   return accounts[0];
-  // };
-
   function hashJSON(obj) {
     const jsonString = JSON.stringify(obj);
     const hash = CryptoJS.SHA256(jsonString);
@@ -175,7 +120,7 @@ function Survey() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // clearInterval(timer);
+
     setFormSubmitted(true);
 
     let userAddress = connectedAddress;
@@ -200,9 +145,8 @@ function Survey() {
       return checkedAnswer ? checkedAnswer.value : null;
     });
 
-    // Attach creator's information to the responses data
     const responseData = {
-      creator: surveyData?.creator || "Unknown", // Using optional chaining and fallback value
+      creator: surveyData?.creator || "Unknown",
       responses: responses,
       taker: userAddress || "Unknown",
       firebaseID: key,
@@ -218,7 +162,7 @@ function Survey() {
           body: JSON.stringify({
             [uuidv4()]: {
               title: surveyData?.title,
-              creator: surveyData?.creator || "Unknown", // Using optional chaining and fallback value
+              creator: surveyData?.creator || "Unknown",
               responses: responses,
               taker: userAddress || "Unknown",
               rewardEarned: surveyData?.rewardPerUser,
@@ -232,21 +176,15 @@ function Survey() {
         }
       );
       if (response.ok) {
-        const responseBody = await response.json(); // Extract the JSON object from the response body
-        const uniqueKey = responseBody.name; // Get the unique key from the JSON object
-        console.log("Firebase unique key:", uniqueKey); // Use the unique key as needed
+        const responseBody = await response.json();
+        const uniqueKey = responseBody.name;
+        console.log("Firebase unique key:", uniqueKey);
         const hash = hashJSON(responseData);
         completeSurveyBlockchain(key, hash);
       }
     } catch (error) {
       console.error("Error:", error);
     }
-    // localStorage.removeItem("startActive");
-    // localStorage.removeItem("timeLeft");
-
-    console.log("Responses:", responseData);
-    console.log("Survey submitted, time stopped");
-    // resetStartState();
   };
 
   const formatQuestion = (questionText) => {
@@ -276,30 +214,15 @@ function Survey() {
           setTimeStarted(Date.now());
         }}
         resetStartState={resetStartState}
-        onWaitingChange={handleWaitingChange} // Pass the function here
+        onWaitingChange={handleWaitingChange}
       />
 
       <ToastContainer position="top-center" />
       <div className="bg-[#4bc7e8] min-h-screen font-sans pt-8">
         <div className="flex flex-col items-center">
-          {/* {timeLeft !== null && (
-            <div className="text-3xl font-bold  md:hidden mb-4">
-              Time Left: {formatTime(timeLeft)}
-            </div>
-          )} */}
           <h1 className="font-bold text-3xl text-center mb-4 text-[#1c1b53]">
             {surveyData.title}
           </h1>
-          {/* {timeLeft !== null && (
-            <div
-              className="hidden lg:block text-3xl font-bold fixed right-10 top-0 p-4 lg:top-1/2 lg:-translate-y-1/2"
-              style={{ zIndex: 1000 }}
-            >
-              {timeLeft !== null && (
-                <div>Time Left: {formatTime(timeLeft)}</div>
-              )}
-            </div>
-          )} */}
         </div>
         <form
           className="flex flex-col items-center"

@@ -6,15 +6,13 @@ import Web3Modal from "web3modal";
 import contractAbi from "../../../abi/surveywei.abi.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReactTooltip from "react-tooltip";
+import Spinner from "../../../abi/surveywei.abi.json";
 
 function SurveyDetails({ connectedAddress }) {
   const { key, id } = useParams();
   const [claimed, setClaimed] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [survey, setSurvey] = useState(null);
-
-  console.log(key, id);
 
   async function fetchSurveyResponse() {
     try {
@@ -25,7 +23,6 @@ function SurveyDetails({ connectedAddress }) {
       if (response.ok) {
         const data = await response.json();
         setSurvey(data);
-        console.log(data);
       } else {
         throw new Error("Failed to fetch surveys");
       }
@@ -63,44 +60,38 @@ function SurveyDetails({ connectedAddress }) {
   };
 
   const claimBountyBlockchain = async (firebaseID) => {
-    console.log(firebaseID);
-
     const contractAddress = "0xd3f2E5e4891E8F779533f95DA7A5AB075F9afd86";
     const userAddress = await connectToMetaMask();
     const web3 = new Web3(Web3.givenProvider);
     const contract = new web3.eth.Contract(contractAbi, contractAddress);
-    console.log("Connected to smart contract:", contract);
-    console.log(contract, userAddress);
+
     claimBounty(firebaseID, contract, userAddress);
   };
 
-  const date = new Date(survey?.timeStarted); // Replace with your desired date
-  let timeLength = 10;
+  const date = new Date(survey?.timeStarted);
+
   const formattedDate = date.toLocaleString("en-US", {
     hour12: true,
     month: "2-digit",
     day: "2-digit",
     year: "numeric",
   });
-  console.log(formattedDate);
 
-  const timeStarted = new Date(survey?.timeStarted * 1000); // convert Unix timestamp to JavaScript Date object
+  const timeStarted = new Date(survey?.timeStarted * 1000);
   const formattedTimeStarted = timeStarted.toLocaleString("en-US", {
     hour12: true,
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
   });
-  const timeFinished = new Date(survey?.timeFinished * 1000); // convert Unix timestamp to JavaScript Date object
+  const timeFinished = new Date(survey?.timeFinished * 1000);
   const formattedTimeFinished = timeFinished.toLocaleString("en-US", {
     hour12: true,
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
   });
-  console.log(formattedTimeStarted);
 
-  console.log(survey);
   return (
     <>
       <ToastContainer />
@@ -161,7 +152,15 @@ function SurveyDetails({ connectedAddress }) {
                       className="btn btn-sm bg-[#4bc7e8] text-white ml-2"
                       onClick={() => claimBountyBlockchain(key)}
                     >
-                      Claim
+                      {waiting ? (
+                        <img
+                          src={Spinner}
+                          alt="Loading..."
+                          className="w-14 h-14 mx-auto"
+                        />
+                      ) : (
+                        "Claim"
+                      )}
                     </button>
                     <p className="text-sm mt-2">
                       **Unless your Survey Credit Score is good, you must wait 7

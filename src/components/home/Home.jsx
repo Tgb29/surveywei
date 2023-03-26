@@ -39,7 +39,6 @@ function Home() {
   };
 
   useEffect(() => {
-    // Fetch the 4 most recent surveys from the database
     const fetchRecentSurveys = async () => {
       const surveys = await getAllSurveys();
       if (surveys) {
@@ -53,7 +52,6 @@ function Home() {
 
         const lastFourSurveys = allSurveys.slice(-6);
         setRecentSurveys(lastFourSurveys);
-        console.log("Recent surveys:", lastFourSurveys);
       }
     };
 

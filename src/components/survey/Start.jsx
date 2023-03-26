@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import UserAddressContext from "../../UserAddressContext";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 import contractAbi from "../../abi/surveywei.abi.json";
@@ -16,9 +15,6 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
 
   const [waiting, setWaiting] = useState(false);
 
-  // const startSurvey = () => {
-  //   console.log("surveyStarted");
-  // };
   const connectToMetaMask = async () => {
     const web3Modal = new Web3Modal();
     const provider = await web3Modal.connect();
@@ -42,7 +38,6 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
       setActive(!active);
       setWaiting(false);
 
-      //want to add time started function to pass the time the waiting went to false as time started on the survey page
       onStart();
     } catch (error) {
       console.error("Error:", error);
@@ -103,7 +98,6 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
                 Upon completion you will receive {rewardPerUser.toFixed(2)} wei
               </p>
               <button
-                // to={`/survey/${key}/${id}`}
                 className="btn rounded-xl bg-[#5cc5c6] hover:bg-[#16a085] flex w-40 mx-auto align-center justify-center mb-6"
                 onClick={continueToSurvey}
               >

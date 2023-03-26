@@ -100,15 +100,10 @@ function Form2() {
         }
       );
       if (response.ok) {
-        const responseBody = await response.json(); // Extract the JSON object from the response body
-        const uniqueKey = responseBody.name; // Get the unique key from the JSON object
-        console.log("Firebase unique key:", uniqueKey); // Use the unique key as needed
-        console.log(responseBody);
-        console.log(response);
+        const responseBody = await response.json();
+        const uniqueKey = responseBody.name;
         setFirebaseId(uniqueKey);
 
-        console.log(uniqueKey);
-        console.log("teedy");
         createSurveytoBlockchain(
           uniqueKey,
           totalReward,
@@ -127,14 +122,10 @@ function Form2() {
     respondents,
     timeLength
   ) => {
-    console.log(firebaseID, reward, respondents, timeLength);
-
     const contractAddress = "0xd3f2E5e4891E8F779533f95DA7A5AB075F9afd86";
     const userAddress = await connectToMetaMask();
     const web3 = new Web3(Web3.givenProvider);
     const contract = new web3.eth.Contract(contractAbi, contractAddress);
-    console.log("Connected to smart contract:", contract);
-    console.log(contract, userAddress);
 
     createSurvey(
       firebaseID,

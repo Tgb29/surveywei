@@ -51,8 +51,6 @@ function Creator({ connectedAddress }) {
       const creatorSurveys = await fetchSurveysByCreator(creatorAddress);
 
       setSurveys(creatorSurveys);
-
-      console.log(creatorSurveys);
     }
     fetchData();
   }, []);
