@@ -42,10 +42,6 @@ function Form2() {
     });
   };
 
-  const onRespondentsOptionChange = (e) => {
-    setRespondentsOption(e.target.value);
-  };
-
   const makeQuestions = () => {
     const newQuestions = [];
     for (let i = 0; i < formData.length; i++) {
@@ -360,35 +356,6 @@ function Form2() {
                   }}
                 />
                 <p className="ml-2 font-bold"> in Minutes</p>
-              </div>
-              <div className="flex items-center justify-center mx-auto text-center mb-2 mr-2 ">
-                Survey Type:
-                <div className="flex items-center mr-4 ml-2">
-                  <input
-                    type="radio"
-                    id="fixedLimit"
-                    name="respondentsOption"
-                    value="fixed"
-                    checked={respondentsOption === "fixed"}
-                    onChange={onRespondentsOptionChange}
-                  />
-                  <label htmlFor="fixedLimit" className="ml-2">
-                    Fixed Limit
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="noLimit"
-                    name="respondentsOption"
-                    value="noLimit"
-                    checked={respondentsOption === "noLimit"}
-                    onChange={onRespondentsOptionChange}
-                  />
-                  <label htmlFor="noLimit" className="ml-2">
-                    No Limit
-                  </label>
-                </div>
               </div>
               <div
                 id="fixed-limt-form-container"
