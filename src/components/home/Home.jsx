@@ -186,6 +186,23 @@ function Home() {
                 </ul>
               </div>
             </div>
+            <hr className="mb-8" />
+            <div className="how-it-works-credit mb-8 md:flex mx-auto align-center justify-center ">
+              <div className="flex-col md:ml-20">
+                <h2 className="font-bold text-2xl mb-4 mt-5">
+                  Survey Credit Score
+                </h2>
+                <p className="font-semibold text-lg mb-8">
+                  Receive a positive attestation anytime you complete a survey.
+                  If you cheat or provide bad data, you'll receive a negative
+                  attestation. Pass the Credit Check and get your rewards paid
+                  instantly.
+                </p>
+                <Link to="/find" className="btn btn-secondary mt-5">
+                  Get Started !
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

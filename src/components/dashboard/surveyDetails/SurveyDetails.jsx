@@ -6,6 +6,7 @@ import Web3Modal from "web3modal";
 import contractAbi from "../../../abi/surveywei.abi.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactTooltip from "react-tooltip";
 
 function SurveyDetails({ connectedAddress }) {
   const { key, id } = useParams();
@@ -145,16 +146,28 @@ function SurveyDetails({ connectedAddress }) {
                 <h1 className="ml-9">{survey?.rewardEarned} wei</h1>
               </div>
               <div className="flex ">
-                <h1 className="font-semibold mr-28 mt-2">Claimed:</h1>
+                <h1 className="font-semibold mr-28 mt-2">
+                  <span title="You have already claimed the reward.">
+                    Claimed:
+                  </span>
+                </h1>
                 {claimed ? (
-                  <h1>Claimed</h1>
+                  <span title="You have already claimed the reward.">
+                    Claimed
+                  </span>
                 ) : (
-                  <button
-                    className="btn btn-sm bg-[#4bc7e8] text-white ml-2"
-                    onClick={() => claimBountyBlockchain(key)}
-                  >
-                    Claim
-                  </button>
+                  <div className="flex-col">
+                    <button
+                      className="btn btn-sm bg-[#4bc7e8] text-white ml-2"
+                      onClick={() => claimBountyBlockchain(key)}
+                    >
+                      Claim
+                    </button>
+                    <p className="text-sm mt-2">
+                      **Unless your Survey Credit Score is good, you must wait 7
+                      days after completing to claim
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
