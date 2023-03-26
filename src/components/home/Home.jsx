@@ -66,11 +66,11 @@ function Home() {
             <span className="text-[#4bc7e8]">Wei</span>
           </h1>
           <p className="text-white font-semibold mb-4">
-            Create and participate in secure, decentralized surveys on the
+            Create and participate in secure, decentralized surveys on the Optimism
             blockchain.
           </p>
           <p className="text-white">
-            Find and complete surveys to earn rewards!
+          Complete surveys to earn rewards and build your credit score!
           </p>
           <div className="hero-buttons">
             <Link to="/find" className="btn btn-primary">
@@ -143,7 +143,7 @@ function Home() {
                 <h2 className="font-bold text-2xl mb-4">Build & Sponsor</h2>
                 <ul className="font-semibold text-lg list-disc list-inside mb-4">
                   <li>Create your own 5-question survey.</li>
-                  <li>Sponsor it with a smart contract.</li>
+                  <li>Issue a bounty create incentives for respondents.</li>
                   <li>
                     Monitor your surveys and responses in
                     <br className="hidden md:inline" />{" "}
@@ -173,13 +173,13 @@ function Home() {
                 </h2>
                 <ul className="font-semibold text-lg list-disc list-inside mb-4">
                   <li>
-                    Connect your Metamask wallet to the SurveyWei platform.
+                  Find and complete surveys within the prompted time duration.
                   </li>
                   <li>
-                    Find and complete surveys within the prompted time duration.
+                  Boost your Credit Score with every survey you complete.
                   </li>
                   <li>
-                    Get instantly rewarded in cryptocurrency upon completion.
+                    Get instantly rewarded in crypto on Optimism.
                   </li>
                 </ul>
               </div>
@@ -200,7 +200,7 @@ function Home() {
                     attestation.
                   </li>
                   <li>
-                    Pass the Credit Check and get your rewards paid instantly!
+                    Pass the Credit Check and receive instant rewards!
                   </li>
                 </ul>
 
