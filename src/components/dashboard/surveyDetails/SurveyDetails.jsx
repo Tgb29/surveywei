@@ -75,12 +75,12 @@ function SurveyDetails({ connectedAddress }) {
 
   const date = new Date(survey?.timeStarted); // Replace with your desired date
   let timeLength = 10;
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "short",
+  const formattedDate = date.toLocaleString("en-US", {
+    hour12: true,
+    month: "2-digit",
     day: "2-digit",
-  }).format(date);
-
+    year: "numeric",
+  });
   console.log(formattedDate);
 
   const timeStarted = new Date(survey?.timeStarted * 1000); // convert Unix timestamp to JavaScript Date object
