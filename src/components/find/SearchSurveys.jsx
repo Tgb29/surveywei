@@ -16,7 +16,21 @@ function SearchSurveys() {
 
       if (response.ok) {
         const data = await response.json();
-        return data;
+        const allSurveysCreated = {};
+
+        for (const key1 in data) {
+          for (const key2 in data[key1]) {
+            const created = data[key1][key2].created;
+            if (created === true) {
+              if (!allSurveysCreated[key1]) {
+                allSurveysCreated[key1] = {};
+              }
+              allSurveysCreated[key1][key2] = data[key1][key2];
+            }
+          }
+        }
+
+        return allSurveysCreated;
       } else {
         throw new Error("Failed to fetch surveys");
       }

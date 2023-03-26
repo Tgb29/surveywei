@@ -41,6 +41,9 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
 
       setActive(!active);
       setWaiting(false);
+
+      //want to add time started function to pass the time the waiting went to false as time started on the survey page
+      onStart();
     } catch (error) {
       console.error("Error:", error);
       setWaiting(false);
@@ -60,7 +63,6 @@ function Start({ timeLimit, rewardPerUser, onStart, resetStartState }) {
   };
   const continueToSurvey = (e) => {
     e.preventDefault();
-    onStart();
     startSurveyBlockchain(key);
   };
 

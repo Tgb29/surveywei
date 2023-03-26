@@ -428,7 +428,7 @@ function Form2() {
                   <h1 className="font-bold ">Wei</h1>
                 </div>
                 <p className="flex items-center justify-center mx-auto text-center mb-5 ">
-                  Reward :{"   "}
+                  Reward per user:{"   "}
                   <span className="font-bold mx-2">{rewardPerUser}</span> Wei
                 </p>
               </div>

@@ -24,6 +24,10 @@ function Survey() {
   // const [timeLeft, setTimeLeft] = useState(null);
   // const [timer, setTimer] = useState(null);
 
+  const handleWaitingChange = () => {
+    console.log("Waiting state changed to false");
+  };
+
   const [isUserCreator, setIsUserCreator] = useState(false);
 
   const connectedAddress = useContext(UserAddressContext);
@@ -272,6 +276,7 @@ function Survey() {
           setTimeStarted(Date.now());
         }}
         resetStartState={resetStartState}
+        onWaitingChange={handleWaitingChange} // Pass the function here
       />
 
       <ToastContainer position="top-center" />

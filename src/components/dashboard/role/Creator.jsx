@@ -23,7 +23,11 @@ function Creator({ connectedAddress }) {
         for (const key1 in data) {
           for (const key2 in data[key1]) {
             const lowercaseCreator = data[key1][key2].creator.toLowerCase();
-            if (lowercaseCreator === lowercaseCreatorAddress) {
+            const created = data[key1][key2].created;
+            if (
+              (lowercaseCreator === lowercaseCreatorAddress) &
+              (created === true)
+            ) {
               if (!creatorSurveys[key1]) {
                 creatorSurveys[key1] = {};
               }
