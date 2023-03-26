@@ -81,9 +81,15 @@ function SearchSurveys() {
   const endIndex = startIndex + itemsPerPage;
   const displayedSurveys = sortReverse
     ? surveysArray
-        .slice(surveysArray.length - endIndex, surveysArray.length - startIndex)
+        .slice(
+          Math.max(0, surveysArray.length - endIndex),
+          surveysArray.length - startIndex
+        )
         .reverse()
     : surveysArray.slice(startIndex, endIndex);
+
+  console.log(displayedSurveys);
+  console.log(surveysArray);
 
   return (
     <div className="bg-[#4bc7e8] min-h-screen flex flex-col items-center justify-center">
